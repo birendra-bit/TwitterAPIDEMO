@@ -1,5 +1,4 @@
-﻿using System;
-using TwitterAPIDemo.Views.UsersView;
+﻿using TwitterAPIDemo.Views.UsersView;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +11,7 @@ namespace TwitterAPIDemo
         {
             InitializeComponent();
 
-            MainPage = new TabbedPageContainer();
+            MainPage = new NavigationPage(new TabbedPageContainer());
         }
 
         protected override void OnStart()

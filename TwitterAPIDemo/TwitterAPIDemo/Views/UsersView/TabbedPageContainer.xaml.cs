@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace TwitterAPIDemo.Views.UsersView
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class TabbedPageContainer : TabbedPage
+    public partial class TabbedPageContainer : Xamarin.Forms.TabbedPage
     {
-        public TabbedPageContainer ()
+        public TabbedPageContainer()
         {
             InitializeComponent();
+            NavigationPage.SetHasNavigationBar(this, false);
+            On<Xamarin.Forms.PlatformConfiguration.Android>().DisableSwipePaging();
         }
     }
 }

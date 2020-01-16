@@ -10,10 +10,13 @@ namespace TwitterAPIDemo.ViewModels.Base
     public abstract class BaseViewModel: ExtendedBindableObject
     {
         #region Initialization
-
+        private string accessTokenKey = "";
+        private string accessTokenSecret = "";
+        private string consumerKey = "";
+        private string comsumerSecrect = "";
         private bool _isTablet;
         private bool _isBusy;
-        private bool _isBusyBlocking;
+        //private bool _isBusyBlocking;
         private bool _isPageLoaded;
         protected bool _isInitialized;
 
