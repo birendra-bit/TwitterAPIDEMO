@@ -4,55 +4,76 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TwitterAPIDemo.Views.UsersView.HomePage">
-    <ScrollView>
-        <ListView ItemsSource="{Binding tweetsList}" HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <!--<Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackLayout Grid.Row="0" Grid.Column="0">
-                                <Image Source="{Binding user.profile_image_url}"/>
-                            </StackLayout>
-                            <StackLayout Grid.Row="0" Grid.Column="1">
-                                <Label Text="{Binding user.name}"/>
-                            </StackLayout>
-                            <StackLayout Grid.Row="1" Grid.Column="1">
-                                <Label Text="{Binding text}"/>
-                            </StackLayout>
-                            <StackLayout Grid.Row="2" Grid.Column="1">
-                                <Image Source="{Binding entities.media.media_url}"/>
-                            </StackLayout>
-                        </Grid>-->
+    <local:BaseContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ListView">
+                <Setter Property="HasUnevenRows" Value="True"/>
+                <Setter Property="SelectionMode" Value="None"/>
+            </Style>
+            <Style TargetType="Frame" x:Key="frame">
+                <Setter Property="BorderColor" Value="Gray"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+            <Style x:Key="profileImg" TargetType="Frame" >
+                <Setter Property="HeightRequest" Value="20"/>
+                <Setter Property="WidthRequest" Value="20"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="IsClippedToBounds" Value="True"/>
+            </Style>
+            <Style x:Key="img" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFill"/>
+                <Setter Property="Margin" Value="-10"/>
+            </Style>
+        </ResourceDictionary>
+    </local:BaseContentPage.Resources>
+    <ListView ItemsSource="{Binding tweets}">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <Frame >
                         <Frame>
-                            <StackLayout Orientation="Horizontal">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Row="0" Grid.Column="0">
+                                    <Image Source="{Binding ProfileImg}"/>
+                                </StackLayout>
+                                <StackLayout Grid.Row="0" Grid.Column="1">
+                                    <Label Text="{Binding Name}"/>
+                                </StackLayout>
+                                <StackLayout Grid.Row="1" Grid.Column="1">
+                                    <Label Text="{Binding TweetText}"/>
+                                </StackLayout>
+                            </Grid>
+                        </Frame>
+                    </Frame>
+                    <!--</Frame>-->
+                        <!--<StackLayout Orientation="Horizontal">
+                            <Image Source="{Binding ProfileImg}" />
+                            <StackLayout >
                                 <StackLayout>
-                                    <Image Source="{Binding user.profile_image_url}"/>
+                                    <Label Text="{Binding Name}"/>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding TweetText}"/>
                                 </StackLayout>
                                 <StackLayout >
-                                    <StackLayout>
-                                        <Label Text="{Binding user.name}"/>
-                                    </StackLayout>
-                                    <StackLayout>
-                                        <Label Text="{Binding text}"/>
-                                    </StackLayout>
-                                    <StackLayout >
-                                        <WebView Source="{Binding entities.media[0].media_url}" />
-                                    </StackLayout>
+                                    --><!--<WebView Source="{Binding TweetMedia}"/>-->
+                                    <!--<Image Source="edited.png"/>--><!--
                                 </StackLayout>
                             </StackLayout>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </ScrollView>
+                        </StackLayout>-->
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </local:BaseContentPage>
