@@ -59,14 +59,14 @@ namespace TwitterAPIDemo.Models
         //public Features features { get; set; }
     }
 
-    public class Entities
-    {
+    //public class Entities
+    //{
         //public List<object> hashtags { get; set; }
         //public List<object> symbols { get; set; }
         //public List<object> user_mentions { get; set; }
         //public List<object> urls { get; set; }
-        public List<Medium> media { get; set; }
-    }
+        //public List<Medium> media { get; set; }
+    //}
 
     //public class Thumb2
     //{
@@ -218,7 +218,7 @@ namespace TwitterAPIDemo.Models
         //public bool profile_background_tile { get; set; }
         public string profile_image_url { get; set; }
         public string profile_image_url_https { get; set; }
-        //public string profile_banner_url { get; set; }
+        public string profile_banner_url { get; set; }
         //public string profile_link_color { get; set; }
         //public string profile_sidebar_border_color { get; set; }
         //public string profile_sidebar_fill_color { get; set; }
@@ -242,7 +242,7 @@ namespace TwitterAPIDemo.Models
         //public string id_str { get; set; }
         public string text { get; set; }
         //public bool truncated { get; set; }
-        public Entities entities { get; set; }
+        //public Entities entities { get; set; }
         ////public ExtendedEntities extended_entities { get; set; }
         //public string source { get; set; }
         //public object in_reply_to_status_id { get; set; }

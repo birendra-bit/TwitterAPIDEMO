@@ -34,7 +34,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     Name = data.user.name,
                     Uname = data.user.screen_name,
                     ProfileImg = data.user.profile_image_url,
-                    TweetText = data.text
+                    TweetText = data.text,
+                    TweetMedia = data.user.profile_banner_url
                 });
             }
             return tweets;

@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TwitterAPIDemo.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style x:Key="background" TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="Black"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
