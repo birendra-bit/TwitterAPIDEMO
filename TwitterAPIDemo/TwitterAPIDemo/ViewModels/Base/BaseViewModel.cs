@@ -10,7 +10,6 @@ namespace TwitterAPIDemo.ViewModels.Base
     public abstract class BaseViewModel: ExtendedBindableObject
     {
         #region Initialization
-
         private bool _isTablet;
         private bool _isBusy;
         private bool _isBusyBlocking;
