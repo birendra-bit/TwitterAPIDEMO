@@ -10,14 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FAB.Forms" Version="2.2.0-pre1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="RestClient" Version="2.5.0.6" />
     <PackageReference Include="RestSharp" Version="106.10.1" />
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xam.Plugin.Media" Version="4.0.1.5" />
+    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991477" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\UsersView\FollowerPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UsersView\FollowingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\UsersView\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -27,6 +33,9 @@
     <EmbeddedResource Update="Views\UsersView\TabbedPageContainer.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\UsersView\TweetPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\UsersView\UsersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -34,5 +43,6 @@
 
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

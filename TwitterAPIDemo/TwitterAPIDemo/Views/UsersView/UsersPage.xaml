@@ -1,12 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <local:BaseContentPage
-            xmlns:local="clr-namespace:TwitterAPIDemo.Views.Base"  
-            xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:local="clr-namespace:TwitterAPIDemo.Views.Base"  
+             xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TwitterAPIDemo.Views.UsersView.UsersPage">
-    <StackLayout>
-        <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+             x:Class="TwitterAPIDemo.Views.UsersView.UsersPage"
+             BackgroundColor="Black">
+    <local:BaseContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ImageButton">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="170"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="TextColor" Value="white"/>
+            </Style>
+        </ResourceDictionary>
+    </local:BaseContentPage.Resources>
+    <StackLayout Margin="10">
+        <StackLayout HorizontalOptions="End">
+            <ImageButton Source="adduser.png"/>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal" Spacing="0">
+            <Label Text="Following" BackgroundColor="#00bfff">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Tapped="TapGestureRecognizer_Tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+            <Label Text="Follower" BackgroundColor="LightBlue">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Tapped="TapGestureRecognizer_Tapped_1"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+        <ContentView x:Name="content"/>
     </StackLayout>
 </local:BaseContentPage>

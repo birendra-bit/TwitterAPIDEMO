@@ -5,45 +5,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fab="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="TwitterAPIDemo.Views.UsersView.HomePage"
-             BackgroundColor="Black">
+             >
     <local:BaseContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="ListView">
-                <Setter Property="HasUnevenRows" Value="True"/>
-                <Setter Property="SelectionMode" Value="None"/>
-                <!--<Setter Property="VerticalScrollBarEnabled" Value="false"/>-->
-            </Style>
             <Style x:Key="frame" TargetType="Frame" >
                 <Setter Property="BorderColor" Value="Gray"/>
                 <Setter Property="HasShadow" Value="True"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
                 <!--<Setter Property="Margin" Value="10"/>-->
             </Style>
-            <Style x:Key="profileImgFrame" TargetType="Frame" >
-                <Setter Property="HeightRequest" Value="100"/>
-                <Setter Property="WidthRequest" Value="100"/>
-                <Setter Property="CornerRadius" Value="50"/>
-                <Setter Property="IsClippedToBounds" Value="True"/>
-            </Style>
-            <Style x:Key="profileImg" TargetType="Image">
-                <Setter Property="Aspect" Value="AspectFill"/>
-                <Setter Property="Margin" Value="-20"/>
-                <Setter Property="HeightRequest" Value="60"/>
-                <Setter Property="WidthRequest" Value="60"/>
-                <Setter Property="VerticalOptions" Value="StartAndExpand"/>
-            </Style>
-            <Style x:Key="name" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="TextColor" Value="Blue"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="VerticalTextAlignment" Value="Start"/>
-            </Style>
             <Style x:Key="text" TargetType="Label">
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="VerticalTextAlignment" Value="Start"/>
-            </Style> 
-            <Style TargetType="Button">
-                <Setter Property="CornerRadius" Value="30"/>
+            </Style>
+            <Style x:Key="floatBtn" TargetType="Button">
+                <Setter Property="BorderRadius" Value="30"/>
                 <Setter Property="HeightRequest" Value="60"/>
                 <Setter Property="WidthRequest" Value="60"/>
                 <Setter Property="BorderWidth" Value="5"/>
@@ -63,8 +39,8 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Frame>
-                                <Frame >
+                            <Frame BackgroundColor="Black">
+                                <!--<Frame BackgroundColor="Black">-->
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="50"/>
@@ -78,14 +54,15 @@
                                             <Image Source="{Binding ProfileImg}" Style="{StaticResource profileImg}" />
                                         </Frame>
                                         <StackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Start">
-                                            <Label Text="{Binding Name}" Style="{StaticResource name}"/>
+                                            <Label Text="{Binding Name}" Style="{StaticResource name}" TextColor="White"/>
+                                            <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
                                         </StackLayout>
                                         <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
-                                            <Label Text="{Binding TweetText}" Style="{StaticResource text}"/>
+                                            <Label Text="{Binding TweetText}" Style="{StaticResource text}" TextColor="LightGray"/>
                                             <Image Source="{Binding TweetMedia}" />
                                         </StackLayout>
                                     </Grid>
-                                </Frame>
+                                <!--</Frame>-->
                             </Frame>
                         </ViewCell>
                     </DataTemplate>
@@ -93,8 +70,10 @@
             </ListView>
         </ContentView>
         <Button
+                Style="{StaticResource floatBtn}"
+                Command="{Binding OpenTweetPage}"
                 Text="+"
-                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-62}"  
-                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-62}" />
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-70}"  
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-70}" />
     </RelativeLayout>
 </local:BaseContentPage>

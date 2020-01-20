@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TwitterAPIDemo.Views.UsersView.FollowingPage">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ImageButton">
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="CornerRadius" Value="25"/>
+                <Setter Property="Aspect" Value="AspectFill"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="BackgroundColor" Value="Green"/>
+                <Setter Property="TextColor" Value="White"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <ListView ItemsSource="{Binding followingsList}" HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Row="0" Grid.Column="0" VerticalOptions="Center">
+                                <ImageButton Source="{Binding ProfileImgUrl}"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="0" Grid.Column="1">
+                                <Label Text="{Binding Name}" Style="{StaticResource name}" FontSize="18"/>
+                                <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
+                                <Button Text="{Binding Status}" />
+                            </StackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--<StackLayout>
+            <Label Text="welcome to following page"/>
+        </StackLayout>-->
+    </ContentView.Content>
+</ContentView>
