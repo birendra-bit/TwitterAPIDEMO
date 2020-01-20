@@ -11,12 +11,13 @@ using Xamarin.Forms.Xaml;
 namespace TwitterAPIDemo.Views.UsersView
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HomePage : BaseContentPage
+	public partial class TweetPage : BaseContentPage
 	{
-		public HomePage ()
+		public TweetPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new HomePageViewModel(Navigation);
-        }
+            BindingContext = new TweetPageViewModel(Navigation);
+            NavigationPage.SetHasNavigationBar(this, false);
+		}
 	}
 }

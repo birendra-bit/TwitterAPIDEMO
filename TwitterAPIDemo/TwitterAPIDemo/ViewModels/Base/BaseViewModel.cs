@@ -12,7 +12,7 @@ namespace TwitterAPIDemo.ViewModels.Base
         #region Initialization
         private bool _isTablet;
         private bool _isBusy;
-        private bool _isBusyBlocking;
+        //private bool _isBusyBlocking;
         private bool _isPageLoaded;
         protected bool _isInitialized;
 
@@ -23,6 +23,7 @@ namespace TwitterAPIDemo.ViewModels.Base
         public event AlertHandlerWithResponse DisplayAlertEventWithResponse;
 
         #endregion
+
 
         #region Properties
 

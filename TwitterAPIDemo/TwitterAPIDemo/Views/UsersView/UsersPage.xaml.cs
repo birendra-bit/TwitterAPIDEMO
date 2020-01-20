@@ -9,6 +9,17 @@ namespace TwitterAPIDemo.Views.UsersView
         public UsersPage()
         {
             InitializeComponent();
+            content.Content = new FollowingPage();
+        }
+
+        private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void TapGestureRecognizer_Tapped_1(object sender, System.EventArgs e)
+        {
+
         }
     }
 }

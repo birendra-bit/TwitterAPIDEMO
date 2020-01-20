@@ -3,6 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TwitterAPIDemo.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <Style x:Key="profileImgFrame" TargetType="Frame" >
+                <Setter Property="HeightRequest" Value="100"/>
+                <Setter Property="WidthRequest" Value="100"/>
+                <Setter Property="CornerRadius" Value="50"/>
+                <Setter Property="IsClippedToBounds" Value="True"/>
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="HasUnevenRows" Value="True"/>
+                <Setter Property="SelectionMode" Value="None"/>
+                <!--<Setter Property="VerticalScrollBarEnabled" Value="false"/>-->
+            </Style>
+            <Style x:Key="profileImg" TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFill"/>
+                <Setter Property="Margin" Value="-20"/>
+                <Setter Property="HeightRequest" Value="60"/>
+                <Setter Property="WidthRequest" Value="60"/>
+                <Setter Property="VerticalOptions" Value="StartAndExpand"/>
+            </Style>
+            <Style x:Key="name" TargetType="Label">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="TextColor" Value="Blue"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="VerticalTextAlignment" Value="Start"/>
+            </Style>
+            <Style x:Key="uname" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="TextColor" Value="LightBlue"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

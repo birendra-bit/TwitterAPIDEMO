@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             xmlns:local="clr-namespace:TwitterAPIDemo.Views.UsersView"
             x:Class="TwitterAPIDemo.Views.UsersView.TabbedPageContainer"
-            BackgroundColor="LightBlue">
-  <!--Pages can be added as references or inline-->
-    <local:HomePage Title="Home"/>
-    <local:ProfilePage Title="ProfilePage"/>
-    <local:UsersPage Title="Users"/>
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarSelectedItemColor="#00bfff"
+            BarTextColor="White"
+            BarBackgroundColor="Black"
+            >
+    <local:HomePage Title="Home" Icon="home.png"/>
+    <local:ProfilePage Title="ProfilePage" Icon="account.png"/>
+    <local:UsersPage Title="Users" Icon="users.png"/>
 </TabbedPage>

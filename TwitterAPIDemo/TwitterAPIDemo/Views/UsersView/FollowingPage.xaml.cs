@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TwitterAPIDemo.ViewModels.UsersViewModel;
-using TwitterAPIDemo.Views.Base;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TwitterAPIDemo.Views.UsersView
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class HomePage : BaseContentPage
+	public partial class FollowingPage : ContentView
 	{
-		public HomePage ()
+		public FollowingPage ()
 		{
 			InitializeComponent ();
-            BindingContext = new HomePageViewModel(Navigation);
+            BindingContext = new FollowingViewModel();
         }
 	}
 }
