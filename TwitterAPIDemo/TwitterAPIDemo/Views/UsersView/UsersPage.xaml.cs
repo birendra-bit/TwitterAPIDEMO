@@ -1,4 +1,5 @@
-﻿using TwitterAPIDemo.Views.Base;
+﻿using System.Diagnostics;
+using TwitterAPIDemo.Views.Base;
 using Xamarin.Forms.Xaml;
 
 namespace TwitterAPIDemo.Views.UsersView
@@ -9,17 +10,18 @@ namespace TwitterAPIDemo.Views.UsersView
         public UsersPage()
         {
             InitializeComponent();
-            content.Content = new FollowingPage();
+            TapGestureRecognizer_Tapped(null, null);
         }
 
         private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
         {
-
+            
+            content.Content = new FollowingPage();
         }
 
         private void TapGestureRecognizer_Tapped_1(object sender, System.EventArgs e)
         {
-
+            content.Content = new FollowerPage();
         }
 
         private void Button_Clicked(object sender, System.EventArgs e)

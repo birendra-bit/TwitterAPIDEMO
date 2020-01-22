@@ -36,14 +36,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579697217\",oauth_nonce=\"GuTWdRsGvNm\",oauth_version=\"1.0\",oauth_signature=\"Jmfjfr5%2BHO4zwrynPeoMdVGI4ag%3D\"");
             IRestResponse response = client.Execute(request);
 
-            //if (!response.StatusCode.Equals("OK"))
-            //{
-            //    DisplayAlert("Sorry", "Something went wrong", "Ok");
-            //    return null;
-            //}
-
-
-
             var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(response.Content);
             List<Tweets> tweets = new List<Tweets>();
            foreach( var data in usersTweets)
@@ -55,6 +47,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     ProfileImg = data.user.profile_image_url,
                     TweetText = data.text,
                     TweetMedia = data.user.profile_banner_url
+                    //TweetMedia = data.entities.urls.Count > 0 ?data.entities.urls[0].expanded_url:null
                 });
             }
             return tweets;

@@ -66,10 +66,11 @@
             </Frame>
         </StackLayout>
         <StackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-            <Editor Placeholder="What is happening!" HeightRequest="200" Text="{Binding Text, Mode=TwoWay}" />
+            <Editor Placeholder="What is happening!" HeightRequest="80" Text="{Binding Text, Mode=TwoWay}" />
+            <Image  HeightRequest="300" WidthRequest="300" Source="{Binding SourceImg}"/>
         </StackLayout>
         <StackLayout Grid.Row="2" Grid.Column="0">
-            <ImageButton Source="upload.png" Style="{StaticResource uploadBtn}"/>
+            <ImageButton Source="upload.png" Style="{StaticResource uploadBtn}" Command="{Binding UploadImage}" />
         </StackLayout>
     </Grid>
 </base:BaseContentPage>

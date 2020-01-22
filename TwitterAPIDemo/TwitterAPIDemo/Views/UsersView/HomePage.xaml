@@ -17,6 +17,7 @@
             <Style x:Key="text" TargetType="Label">
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="VerticalTextAlignment" Value="Start"/>
+                <Setter Property="TextColor" Value="LightGray"/>
             </Style>
             <Style x:Key="floatBtn" TargetType="Button">
                 <Setter Property="BorderRadius" Value="30"/>
@@ -41,27 +42,28 @@
                         <ViewCell>
                             <Frame BackgroundColor="Black">
                                 <!--<Frame BackgroundColor="Black">-->
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="50"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource profileImgFrame}" VerticalOptions="End">
-                                            <Image Source="{Binding ProfileImg}" Style="{StaticResource profileImg}" />
-                                        </Frame>
-                                        <StackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Start">
-                                            <Label Text="{Binding Name}" Style="{StaticResource name}" TextColor="White"/>
-                                            <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
-                                        </StackLayout>
-                                        <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
-                                            <Label Text="{Binding TweetText}" Style="{StaticResource text}" TextColor="LightGray"/>
-                                            <Image Source="{Binding TweetMedia}" />
-                                        </StackLayout>
-                                    </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource profileImgFrame}" VerticalOptions="End">
+                                        <Image Source="{Binding ProfileImg}" Style="{StaticResource profileImg}" />
+                                    </Frame>
+                                    <StackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Start">
+                                        <Label Text="{Binding Name}" Style="{StaticResource name}" />
+                                        <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
+                                        <Label Text="{Binding TweetText}" Style="{StaticResource text}" />
+                                        <Image Source="{Binding TweetMedia}" />
+                                        <!--<WebView Source="{Binding TweetMedia}"/>-->
+                                    </StackLayout>
+                                </Grid>
                                 <!--</Frame>-->
                             </Frame>
                         </ViewCell>

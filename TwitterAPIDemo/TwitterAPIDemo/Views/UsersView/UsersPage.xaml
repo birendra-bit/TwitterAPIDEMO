@@ -22,27 +22,17 @@
         </ResourceDictionary>
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
-        <!--<StackLayout >-->
-            <!--<Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>-->
-                <!--<Entry Placeholder="Username" Grid.Row="0" Grid.Column="0" TextColor="White"/>-->
+        
                 <Button Text="Search" HorizontalOptions="End" Clicked="Button_Clicked"/>
-            <!--</Grid>-->
-        <!--</StackLayout>-->
-        <StackLayout Orientation="Horizontal" Spacing="0">
-            <Label Text="Following" BackgroundColor="#00bfff">
+        
+        <StackLayout Orientation="Horizontal" Spacing="0" >
+            <Label Text="Following" x:Name="followingBtn" BackgroundColor="#00bfff">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
                         Tapped="TapGestureRecognizer_Tapped"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Label Text="Follower" BackgroundColor="LightBlue">
+            <Label Text="Follower" x:Name="follower">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
                         Tapped="TapGestureRecognizer_Tapped_1"/>

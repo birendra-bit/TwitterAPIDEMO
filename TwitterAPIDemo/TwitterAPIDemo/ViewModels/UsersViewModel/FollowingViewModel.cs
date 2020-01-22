@@ -10,10 +10,15 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
     public class FollowingViewModel : BaseViewModel
     {
+        private bool apiHit = true;
         public List<Following> followingsList { get; set; }
         public FollowingViewModel()
         {
-            this.followingsList = GenerateList();
+            if (apiHit)
+            {
+                this.followingsList = GenerateList();
+                apiHit = false;
+            }
         }
         private List<Following> GenerateList()
         {
