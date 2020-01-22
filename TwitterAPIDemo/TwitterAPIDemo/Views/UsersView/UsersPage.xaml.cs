@@ -21,5 +21,10 @@ namespace TwitterAPIDemo.Views.UsersView
         {
 
         }
+
+        private void Button_Clicked(object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SearchUserPage());
+        }
     }
 }

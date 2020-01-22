@@ -22,9 +22,19 @@
         </ResourceDictionary>
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
-        <StackLayout HorizontalOptions="End">
-            <ImageButton Source="adduser.png"/>
-        </StackLayout>
+        <!--<StackLayout >-->
+            <!--<Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>-->
+                <!--<Entry Placeholder="Username" Grid.Row="0" Grid.Column="0" TextColor="White"/>-->
+                <Button Text="Search" HorizontalOptions="End" Clicked="Button_Clicked"/>
+            <!--</Grid>-->
+        <!--</StackLayout>-->
         <StackLayout Orientation="Horizontal" Spacing="0">
             <Label Text="Following" BackgroundColor="#00bfff">
                 <Label.GestureRecognizers>

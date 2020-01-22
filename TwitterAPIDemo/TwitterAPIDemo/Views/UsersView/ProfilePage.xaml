@@ -49,26 +49,49 @@
         <RelativeLayout>
             <StackLayout BackgroundColor="White" HeightRequest="100">
                 <Image Source="{Binding Banner}" Style="{StaticResource BannerImage}" WidthRequest="400"></Image>
+                <ImageButton Source="update_banner.png" WidthRequest="35" HeightRequest="35" HorizontalOptions="End" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=120}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
             </StackLayout>
             <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, Property=X, Factor=1,Constant=5}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=75}">
             <Frame Style="{StaticResource RoundFrame}">
-            <Image Source="{Binding ProfileImage}" Style="{StaticResource RoundImage}"/>
-            </Frame>
+                    <Image Source="{Binding ProfileImage}" Style="{StaticResource RoundImage}"/>
+                </Frame>
+                <ImageButton Source="update_banner.png" WidthRequest="20" HeightRequest="20" HorizontalOptions="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=150}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
+
             </StackLayout>
-            <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="26" Margin="15" TextColor="White"
-            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=180}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-            <Label Text="{Binding Username}" FontAttributes="None" FontSize="14" Margin="15" TextColor="LightGray"
+
+            <StackLayout Margin="0,200,0,0">
+                <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    <Entry Text="{Binding Name,Mode=TwoWay}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="20" Margin="15" TextColor="White"
+            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=180}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+                    </Entry>
+                    <ImageButton Source="editDetails.png" Grid.Row="0" Grid.Column="1"  HeightRequest="20" WidthRequest="20" HorizontalOptions="Center"
+                 
+                    Command="{Binding EditProfile}" >
+
+                    </ImageButton>
+
+
+
+                    <Label Text="{Binding Username}" Grid.Row="1" Grid.Column="0" FontAttributes="None" FontSize="10" Margin="15" TextColor="LightGray"
             HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=205}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-            <Label Text="{Binding Location}" FontAttributes="Bold" FontSize="18" Margin="15" TextColor="White"
-            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=235}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-            <Label Text="{Binding Description}" FontAttributes="Bold" FontSize="18" Margin="25" TextColor="Yellow"
-            HorizontalTextAlignment="Center" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=140}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
-            <!--<StackLayout RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=140}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
-            <Label Text="{Binding Name}" Style="{StaticResource DisplayName}"/>
+
+                    <Label Text="{Binding Location}" Grid.Row="3" Grid.Column="0" FontSize="14" Margin="15" TextColor="White"
+            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=260}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+                    <Label Text="{Binding Description}" Grid.Row="2" Grid.Column="0" FontAttributes="Bold" FontSize="14" Margin="15" TextColor="White"
+            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=228}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}" />
+
+            </Grid>
             </StackLayout>
-            <StackLayout RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=140}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
-                <Label Text="{Binding Username}" Style="{StaticResource DisplayUserName}"/>
-            </StackLayout>-->
         </RelativeLayout>
 
         

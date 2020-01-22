@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Collections.Generic;
 using TwitterAPIDemo.Models;
@@ -10,6 +11,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
     public class HomePageViewModel : BaseViewModel
     {
+        //private string authorization;
+
         public IList<Tweets> tweets { get; set; }
         public HomePageViewModel(INavigation navigation)
         {
@@ -26,18 +29,21 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         }
         public List<Tweets> usersTweets()
         {
-            
+
             var client = new RestClient("https://api.twitter.com/1.1/statuses/home_timeline.json");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", authorization);
-
+            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579697217\",oauth_nonce=\"GuTWdRsGvNm\",oauth_version=\"1.0\",oauth_signature=\"Jmfjfr5%2BHO4zwrynPeoMdVGI4ag%3D\"");
             IRestResponse response = client.Execute(request);
+
             //if (!response.StatusCode.Equals("OK"))
             //{
             //    DisplayAlert("Sorry", "Something went wrong", "Ok");
             //    return null;
             //}
+
+
+
             var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(response.Content);
             List<Tweets> tweets = new List<Tweets>();
            foreach( var data in usersTweets)

@@ -20,8 +20,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             var client = new RestClient("https://api.twitter.com/1.1/friends/list.json");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"jVWQH3Qd7rzwrXFpbUnImqwUQ\",oauth_token=\"1165850293965209600-4efdWDjKAlScxCVL9EPi8wy42FiZYi\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579497085\",oauth_nonce=\"voVh8rSartN\",oauth_version=\"1.0\",oauth_signature=\"X9iQyJiCaP8AvAbyZ%2BQxhm9yd6g%3D\"");
-            var response = client.Execute(request);
+            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579697265\",oauth_nonce=\"LNlIC3huxGG\",oauth_version=\"1.0\",oauth_signature=\"U%2F2M4B%2BYSCVx69g2EJy7NEbP4P0%3D\"");
+            IRestResponse response = client.Execute(request);
 
             if (!response.StatusCode.Equals(System.Net.HttpStatusCode.OK))
             {

@@ -9,7 +9,7 @@
             BarTextColor="White"
             BarBackgroundColor="Black"
             >
-    <local:HomePage Title="Home" Icon="home.png"/>
+    <local:HomePage Title="Home" IconImageSource="hy.png"/>
     <local:ProfilePage Title="ProfilePage" Icon="account.png"/>
     <local:UsersPage Title="Users" Icon="users.png"/>
 </TabbedPage>

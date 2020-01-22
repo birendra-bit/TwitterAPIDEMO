@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TwitterAPIDemo.Views.UsersView.EditProfile"
+             BackgroundColor="Black">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry Placeholder="enter new name"></Entry>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
