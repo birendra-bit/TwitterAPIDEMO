@@ -30,14 +30,10 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             var client = new RestClient("https://api.twitter.com/1.1/statuses/home_timeline.json");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", authorization);
+            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"jVWQH3Qd7rzwrXFpbUnImqwUQ\",oauth_token=\"1165850293965209600-4efdWDjKAlScxCVL9EPi8wy42FiZYi\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579606608\",oauth_nonce=\"0hwSdR4cMTL\",oauth_version=\"1.0\",oauth_signature=\"Qj%2Bs5ymuaqHeLgYse3PhCw3kiKc%3D\"");
 
             IRestResponse response = client.Execute(request);
-            //if (!response.StatusCode.Equals("OK"))
-            //{
-            //    DisplayAlert("Sorry", "Something went wrong", "Ok");
-            //    return null;
-            //}
+            
             var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(response.Content);
             List<Tweets> tweets = new List<Tweets>();
            foreach( var data in usersTweets)
@@ -49,6 +45,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     ProfileImg = data.user.profile_image_url,
                     TweetText = data.text,
                     TweetMedia = data.user.profile_banner_url
+                    //TweetMedia = data.entities.urls.Count > 0 ?data.entities.urls[0].expanded_url:null
                 });
             }
             return tweets;
