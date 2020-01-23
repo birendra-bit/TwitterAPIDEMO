@@ -23,18 +23,18 @@ namespace TwitterAPIDemo.Models
         public List<object> urls { get; set; }
     }
 
-    public class Entities
-    {
-        public Description description { get; set; }
-    }
+    //public class Entities
+    //{
+    //    public Description description { get; set; }
+    //}
 
-    public class Url
-    {
-        public string url { get; set; }
-        public string expanded_url { get; set; }
-        public string display_url { get; set; }
-        public List<int> indices { get; set; }
-    }
+    //public class Url
+    //{
+    //    public string url { get; set; }
+    //    public string expanded_url { get; set; }
+    //    public string display_url { get; set; }
+    //    public List<int> indices { get; set; }
+    //}
 
     public class Entities2
     {

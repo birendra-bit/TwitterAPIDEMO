@@ -20,6 +20,7 @@ namespace TwitterAPIDemo.Models
     {
         public List<Url> urls { get; set; }
         public List<Medium> media { get; set; }
+        public Description description { get; set; }
     }
     public class User
     {
