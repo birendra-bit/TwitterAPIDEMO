@@ -36,7 +36,7 @@
             
         
         <ListView x:Name="searchUser"
-                  ItemsSource="{Binding searchUser}" HasUnevenRows="True">
+                  ItemsSource="{Binding SearchUser}" HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell >

@@ -62,22 +62,20 @@
             <StackLayout Margin="0,200,0,0">
                 <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                     <Entry Text="{Binding Name,Mode=TwoWay}" Grid.Row="0" Grid.Column="0" FontAttributes="Bold" FontSize="20" Margin="15" TextColor="White"
-            HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=180}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
+                        HorizontalTextAlignment="Start" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=180}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
                     </Entry>
                     <ImageButton Source="editDetails.png" Grid.Row="0" Grid.Column="1"  HeightRequest="20" WidthRequest="20" HorizontalOptions="Center"
-                 
-                    Command="{Binding EditProfile}" >
-
+                        Command="{Binding EditProfile}" BackgroundColor="Black">
                     </ImageButton>
 
 
