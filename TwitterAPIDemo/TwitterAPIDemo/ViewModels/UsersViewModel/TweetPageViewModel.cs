@@ -1,14 +1,8 @@
-﻿using Newtonsoft.Json;
-using Plugin.Media;
-using RestSharp;
-using System;
+﻿using Plugin.Media;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Windows.Input;
-using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
 using Xamarin.Forms;
@@ -43,10 +37,13 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
         }
         private string sourceImg;
-        public string SourceImg {
+        public string SourceImg
+        {
             get { return sourceImg; }
-            set {
-                if (sourceImg != value){
+            set
+            {
+                if (sourceImg != value)
+                {
                     sourceImg = value;
                     OnPropertyChanged();
                 };
@@ -95,12 +92,12 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
 
                 var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
-                if (!httpResponse.IsSuccessStatusCode)
+                if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
                     DisplayAlert("sorry", "something went wrong", "ok");
                     return;
                 }
-                var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                //var httpContent = await httpResponse.Content.ReadAsStringAsync();
             }
         }
         public string Text { get; set; }

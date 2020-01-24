@@ -6,6 +6,6 @@ namespace TwitterAPIDemo.Models
 {
     public class FollowerModel
     {
-        public List<User> users { get; set; }
+        public List<User> user { get; set; }
     }
 }

@@ -18,12 +18,15 @@ namespace TwitterAPIDemo.Views.UsersView
         {
 
             content.Content = new FollowingPage();
-            following.BackgroundColor = Color.FromHex("");
+            following.BackgroundColor = Color.FromHex("#00bfff");
+            follower.BackgroundColor = Color.Transparent;
         }
 
         private void TapGestureRecognizer_Tapped_1(object sender, System.EventArgs e)
         {
             content.Content = new FollowerPage();
+            following.BackgroundColor = Color.Transparent;
+            follower.BackgroundColor = Color.FromHex("#00bfff");
         }
     }
 }

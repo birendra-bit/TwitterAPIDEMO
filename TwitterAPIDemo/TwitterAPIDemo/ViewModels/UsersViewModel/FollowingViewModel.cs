@@ -3,7 +3,10 @@ using Newtonsoft.Json.Converters;
 using RestSharp;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Net.Http;
+using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
+using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
 
 namespace TwitterAPIDemo.ViewModels.UsersViewModel
@@ -16,36 +19,42 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             if (apiHit)
             {
-                this.followingsList = GenerateList();
+                Task.Run(() => GenerateList()).Wait();
                 apiHit = false;
             }
         }
-        private List<Following> GenerateList()
+        private async void  GenerateList()
         {
-            var client = new RestClient("https://api.twitter.com/1.1/friends/list.json");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"jVWQH3Qd7rzwrXFpbUnImqwUQ\",oauth_token=\"1165850293965209600-4efdWDjKAlScxCVL9EPi8wy42FiZYi\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579497085\",oauth_nonce=\"voVh8rSartN\",oauth_version=\"1.0\",oauth_signature=\"X9iQyJiCaP8AvAbyZ%2BQxhm9yd6g%3D\"");
-            var response = client.Execute(request);
+            Authorization auth = new Authorization();
+            var url = "https://api.twitter.com/1.1/friends/list.json";
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "GET"));
 
-            if (!response.StatusCode.Equals(System.Net.HttpStatusCode.OK))
-            {
-                DisplayAlert("Sorry", "Something went wrong", "OK");
-                return null;
-            }
-            var following = JsonConvert.DeserializeObject<FollowingModel>(response.Content);
-            List<Following> followingsUser = new List<Following>();
-            foreach (var data in following.users)
-            {
-                followingsUser.Add(new Following
+                var httpResponse = await httpClient.GetAsync(url);
+
+                if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
-                    Name = data.name,
-                    Uname = data.screen_name,
-                    ProfileImgUrl = data.profile_image_url_https,
-                    Status = "following"
-                });
+                    DisplayAlert("sorry", "something went wrong", "ok");
+                    return;
+                }
+                var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                var following = JsonConvert.DeserializeObject<FollowingModel>(httpContent);
+                List<Following> followingsUser = new List<Following>();
+                foreach (var data in following.users)
+                {
+                    followingsUser.Add(new Following
+                    {
+                        Name = data.name,
+                        Uname = data.screen_name,
+                        ProfileImgUrl = data.profile_image_url_https,
+                        Status = "following"
+                    });
+                }
+               this.followingsList = followingsUser;
             }
-            return followingsUser;
+               
+            
         }
         public class Following
         {
