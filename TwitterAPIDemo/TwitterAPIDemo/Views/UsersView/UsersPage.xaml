@@ -26,7 +26,7 @@
             <ImageButton Source="adduser.png"/>
         </StackLayout>
         <StackLayout Orientation="Horizontal" Spacing="0" >
-            <Label Text="Following" x:Name="followingBtn" BackgroundColor="#00bfff">
+            <Label Text="Following" x:Name="following" BackgroundColor="#00bfff">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
                         Tapped="TapGestureRecognizer_Tapped"/>

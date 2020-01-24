@@ -52,5 +52,6 @@ namespace TwitterAPIDemo.Views.Base
         //{
         //    return await DisplayAlert(title, message, buttonAcceptText, buttonCancelText);
         //}
+
     }
 }
