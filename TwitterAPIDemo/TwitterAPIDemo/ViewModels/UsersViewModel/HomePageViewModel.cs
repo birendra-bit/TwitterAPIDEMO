@@ -33,12 +33,15 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             var client = new RestClient("https://api.twitter.com/1.1/statuses/home_timeline.json");
             client.Timeout = -1;
             var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579697217\",oauth_nonce=\"GuTWdRsGvNm\",oauth_version=\"1.0\",oauth_signature=\"Jmfjfr5%2BHO4zwrynPeoMdVGI4ag%3D\"");
+            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579850806\",oauth_nonce=\"dAHASnMP9QC\",oauth_version=\"1.0\",oauth_signature=\"q4aDgB4PCLy9fzBaEFdeNv4u970%3D\"");
+            request.AddHeader("Content-Type", "multipart/form-data; boundary=--------------------------663259984636879738166611");
+            request.AlwaysMultipartFormData = true;
             IRestResponse response = client.Execute(request);
+            
 
             var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(response.Content);
             List<Tweets> tweets = new List<Tweets>();
-           foreach( var data in usersTweets)
+            foreach (var data in usersTweets)
             {
                 tweets.Add(new Tweets
                 {

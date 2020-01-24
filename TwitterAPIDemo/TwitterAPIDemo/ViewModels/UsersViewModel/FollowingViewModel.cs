@@ -22,11 +22,14 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         }
         private List<Following> GenerateList()
         {
-            var client = new RestClient("https://api.twitter.com/1.1/friends/list.json");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579697265\",oauth_nonce=\"LNlIC3huxGG\",oauth_version=\"1.0\",oauth_signature=\"U%2F2M4B%2BYSCVx69g2EJy7NEbP4P0%3D\"");
-            IRestResponse response = client.Execute(request);
+            var client = new RestClient("https://api.twitter.com/1.1/friends/list.json?screen_name=ashishchopra01");
+
+client.Timeout = -1;
+var request = new RestRequest(Method.GET);
+request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579851036\",oauth_nonce=\"VSP7yyeIDeE\",oauth_version=\"1.0\",oauth_signature=\"ICgRwTUHSonsEcTArHV%2FUIS7Mfg%3D\"");
+request.AddHeader("Content-Type", "multipart/form-data; boundary=--------------------------078997629203003408524815");
+request.AlwaysMultipartFormData = true;
+IRestResponse response = client.Execute(request);
 
             if (!response.StatusCode.Equals(System.Net.HttpStatusCode.OK))
             {
