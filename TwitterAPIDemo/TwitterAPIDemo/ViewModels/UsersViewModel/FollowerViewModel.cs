@@ -12,16 +12,17 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         private bool apiHit = true;
         public List<Follower> followerList { get; set; }
+       
         public FollowerViewModel()
         {
             if (apiHit)
             {
-                Task.Run(() => GenerateFollowerList());
+                Task.Run(() => GenerateFollowerList()).Wait();
                 apiHit = false;
             }
         }
 
-        private async void GenerateFollowerList()
+        private async Task GenerateFollowerList()
         {
             Authorization auth = new Authorization();
             var url = "https://api.twitter.com/1.1/followers/list.json";
@@ -51,7 +52,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     });
                 }
                 this.followerList = followers;
-                return;
             }
         }
 

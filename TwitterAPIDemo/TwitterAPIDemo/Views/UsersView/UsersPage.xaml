@@ -29,13 +29,13 @@
             <Label Text="Following" x:Name="following">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
-                        Tapped="TapGestureRecognizer_Tapped"/>
+                        Tapped="DisplayFollowingUsers"/>
                 </Label.GestureRecognizers>
             </Label>
             <Label Text="Follower" x:Name="follower">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
-                        Tapped="TapGestureRecognizer_Tapped_1"/>
+                        Tapped="DisplayFollower"/>
                 </Label.GestureRecognizers>
             </Label>
         </StackLayout>

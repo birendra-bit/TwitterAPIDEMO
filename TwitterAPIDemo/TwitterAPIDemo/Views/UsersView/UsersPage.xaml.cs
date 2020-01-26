@@ -11,10 +11,10 @@ namespace TwitterAPIDemo.Views.UsersView
         public UsersPage()
         {
             InitializeComponent();
-            TapGestureRecognizer_Tapped(null, null);
+            DisplayFollowingUsers(null, null);
         }
 
-        private void TapGestureRecognizer_Tapped(object sender, System.EventArgs e)
+        private void DisplayFollowingUsers(object sender, System.EventArgs e)
         {
 
             content.Content = new FollowingPage();
@@ -22,7 +22,7 @@ namespace TwitterAPIDemo.Views.UsersView
             follower.BackgroundColor = Color.Transparent;
         }
 
-        private void TapGestureRecognizer_Tapped_1(object sender, System.EventArgs e)
+        private void DisplayFollower(object sender, System.EventArgs e)
         {
             content.Content = new FollowerPage();
             following.BackgroundColor = Color.Transparent;
