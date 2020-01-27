@@ -25,7 +25,7 @@
         <Button Text="Search" HorizontalOptions="End" Clicked="Button_Clicked"/>
         
         <StackLayout Orientation="Horizontal" Spacing="0" >
-            <Label Text="Following" x:Name="followingBtn" BackgroundColor="#00bfff">
+            <Label Text="Following" x:Name="following">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
                         Tapped="TapGestureRecognizer_Tapped"/>

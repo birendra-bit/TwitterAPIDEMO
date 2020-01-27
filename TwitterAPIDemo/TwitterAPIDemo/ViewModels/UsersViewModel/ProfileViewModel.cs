@@ -2,9 +2,14 @@
 using Plugin.Media;
 using RestSharp;
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows.Input;
 using TwitterAPIDemo.Models;
+using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
 using Xamarin.Forms;
 
@@ -14,24 +19,37 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         public INavigation navigation;
         ProfilePageModel obj;
+       // string authToken = "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1580108411\",oauth_nonce=\"u8Sthm6oMRF\",oauth_version=\"1.0\",oauth_signature=\"IkN6Upr0MMzdQoBSgcAqkfNMb%2FA%3D\""; 
 
         public ProfileViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
-            profile();
+            Task.Run(() => Profile()).Wait();
         }
-        public Command EditProfile
-        {
-            get
-            {
-                return new Command(() =>
-                {
-                    //Navigation.PushAsync(new EditProfile());
-                    UpdateName(Name);
-                });
-            }
-        }
+
+        //public override Task InitializeAsync(Page page)
+        //{
+        //    return base.InitializeAsync(page);
+        //}
+
+        //public Command EditProfile
+        //{
+        //    get
+        //    {
+        //        return new Command(() =>
+        //        {
+        //            //Navigation.PushAsync(new EditProfile());
+        //            UpdateName(Name);
+        //        });
+        //    }
+        //}
         private string banner;
+        //private object https;
+        //private int multipart;
+        //private int form;
+        //private int formdata;
+        //private string mutipartContent;
+
         public string Banner
         {
             get { return banner; }
@@ -54,6 +72,17 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     });
             }
         }
+        public Command SaveImage
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                   await PostBanner(Banner);
+
+                });
+            }
+        }
         private async Task<string> ClickToUpload()
         {
             if (!CrossMedia.Current.IsPickPhotoSupported)
@@ -72,47 +101,92 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
         }
 
-        private void UpdateName(string name)
-        {
-            string url = "https://api.twitter.com/1.1/account/update_profile.json?name=" + name;
-            PostApi(url);
-        }
+        //private void UpdateName(string name)
+        //{
+        //    string url = "https://api.twitter.com/1.1/account/update_profile.json?name=" + name;
+        //    PostApi(url);
+        //}
         //POST API
-        private void PostApi(string url)
+        private async Task PostBanner(string ImagePath)
         {
-            var client = new RestClient(url);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-X3kasuaHuilqbVu7NhrrJYSi7GlkdQ\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579529330\",oauth_nonce=\"JQtfukuBqQL\",oauth_version=\"1.0\",oauth_signature=\"HMta6hC75MxNKfprvcVX4T6FGiM%3D\"");
-            request.AddHeader("Content-Type", "multipart/form-data; boundary=--------------------------306805999221266378467087");
-            request.AlwaysMultipartFormData = true;
-            IRestResponse response = client.Execute(request);
-            Console.WriteLine(response.Content);
+            string mediaId = string.Empty;
+            string banner_img = string.Empty;
+            try
+            {
+                Console.WriteLine(ImagePath);
+                Authorization auth = new Authorization();
+                var url = "https://api.twitter.com/1.1/account/update_profile_banner.json";
+                byte[] bannerdata = System.IO.File.ReadAllBytes(ImagePath);
+                var imgContent = new ByteArrayContent(bannerdata);
+                imgContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
+                var multipartContent = new MultipartFormDataContent();
+                multipartContent.Add(imgContent, "media");
+               
+                var data = new Dictionary<string, string>
+            {
+                    {"banner", "ashish" },
+                    {"width" , "1500"}
+            };
+
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST" ));
+
+                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
+                    {
+                        DisplayAlert("sorry", "You are not authorized", "ok");
+                        return;
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
 
-        private void profile()
+
+        private async Task Profile()
         {
-            var client = new RestClient("https://api.twitter.com/1.1/users/show.json?screen_name=ashishchopra01");
-            client.Timeout = -1;
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Authorization", "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579850979\",oauth_nonce=\"fwSUtZy4hPu\",oauth_version=\"1.0\",oauth_signature=\"dW%2Fd14hGxZNtT4ZPEHS1MS6iFzY%3D\"");
-            request.AddHeader("Content-Type", "multipart/form-data; boundary=--------------------------487017961943671843106180");
-            request.AlwaysMultipartFormData = true;
-            IRestResponse response = client.Execute(request);
+            try
+            {
+                Authorization auth = new Authorization();
+                var url = "https://api.twitter.com/1.1/users/show.json";
 
-            obj = JsonConvert.DeserializeObject<ProfilePageModel>(response.Content);
-            Banner = obj.profile_banner_url;
-            ProfileImage = obj.profile_image_url;
-            Name = obj.name;
-            Username = obj.screen_name;
-            Location = obj.location;
-            Description = obj.description;
+                using (var httpClient = new HttpClient())
+                {
+                    var data = new Dictionary<string, string>
+                        {
+                            { "screen_name", "ashishchopra01" }
+                        };
+                    //string str = auth.PrepareOAuth(url, null, "GET");
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url,data,"GET"));
+                    UriBuilder builder = new UriBuilder(url);
+                    builder.Query = "screen_name=ashishchopra01";
+                    //httpClient.DefaultRequestHeaders.Add());
+                    var httpResponse = httpClient.GetAsync(builder.Uri).Result;
+                    Console.WriteLine(httpResponse);
+                    if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
+                    {
+                        DisplayAlert("sorry", "You are not authorized", "ok");
+                        return;
+                    }
+                    var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                    obj = JsonConvert.DeserializeObject<ProfilePageModel>(httpContent);
+                    Banner = obj.profile_banner_url;
+                    ProfileImage = obj.profile_image_url;
+                    Name = obj.name;
+                    Username = obj.screen_name;
+                    Location = obj.location;
+                    Description = obj.description;
+                }
+            }
+            catch(Exception ex) { }
         }
-
-
-
-
 
         public string Name { get; set; }
         public string Username { get; set; }

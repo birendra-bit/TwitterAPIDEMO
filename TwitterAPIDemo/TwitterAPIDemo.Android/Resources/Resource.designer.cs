@@ -26,7 +26,6 @@ namespace TwitterAPIDemo.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::ModernHttpClient.Resource.String.library_name = global::TwitterAPIDemo.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_in = global::TwitterAPIDemo.Droid.Resource.Animation.abc_fade_in;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_fade_out = global::TwitterAPIDemo.Droid.Resource.Animation.abc_fade_out;
 			global::Xamarin.Forms.Platform.Android.Resource.Animation.abc_grow_fade_in_from_bottom = global::TwitterAPIDemo.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;
@@ -6122,9 +6121,6 @@ namespace TwitterAPIDemo.Droid
 			
 			// aapt resource value: 0x7f0c0035
 			public const int character_counter_pattern = 2131492917;
-			
-			// aapt resource value: 0x7f0c003c
-			public const int library_name = 2131492924;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int mr_button_content_description = 2131492864;

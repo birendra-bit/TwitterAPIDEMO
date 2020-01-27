@@ -50,7 +50,7 @@
                 <Image Source="{Binding Banner}" Style="{StaticResource BannerImage}" WidthRequest="400"></Image>
                 <ImageButton Command="{Binding UploadImage}" Source="update_banner.png" WidthRequest="35" HeightRequest="35" HorizontalOptions="End" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=120}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
             </StackLayout>
-            <ImageButton Source="SaveButton.png" WidthRequest="80" HeightRequest="40" HorizontalOptions="EndAndExpand" BackgroundColor="Black" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=110}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
+            <ImageButton Command="{Binding SaveImage}" Source="SaveButton.png" WidthRequest="80" HeightRequest="40" HorizontalOptions="EndAndExpand" BackgroundColor="Black" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=110}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
             <StackLayout RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, Property=X, Factor=1,Constant=5}" RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=75}">
             <Frame Style="{StaticResource RoundFrame}">
                     <Image Source="{Binding ProfileImage}" Style="{StaticResource RoundImage}"/>
