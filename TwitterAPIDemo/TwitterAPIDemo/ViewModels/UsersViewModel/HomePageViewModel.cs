@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
@@ -61,17 +63,26 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
             using (var httpClient = new HttpClient())
             {
+                //var data1 = new Dictionary<string, string>
+                //{
+                //    {"screen_name", "Birendr19286036"}
+                //};
+
                 httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "GET"));
 
+                //UriBuilder builder = new UriBuilder("https://api.twitter.com/1.1/users/show.json");
+                //builder.Query = "screen_name=Birendr19286036";
+                ////builder.Query = Uri.EscapeDataString(builder.Query);
+                //var result = httpClient.GetAsync(builder.Uri).Result;
+                
                 var httpResponse = await httpClient.GetAsync(url);
-
                 if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
                     DisplayAlert("sorry", "something went wrong", "ok");
                     return;
                 }
                 var httpContent = await httpResponse.Content.ReadAsStringAsync();
-
+                
                 var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(httpContent);
                 List<Tweets> tweets1 = new List<Tweets>();
                 foreach (var data in usersTweets)
