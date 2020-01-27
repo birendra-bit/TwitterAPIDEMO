@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
+using Xamarin.Forms;
 
 namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
@@ -21,7 +23,60 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 apiHit = false;
             }
         }
+        public Command Block
+        {
+            get
+            {
+                return new Command(BlockUser);
+            }
+        }
+        public async void BlockUser(object obj)
+        {
+            try
+            {
+                string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
+                string status = (string)obj.GetType().GetProperty("Status").GetValue(obj);
 
+                Authorization auth = new Authorization();
+                string url;
+                Dictionary<string,string> data;
+                if ( status == "follow")
+                {
+                    url = "https://api.twitter.com/1.1/friendships/create.json";
+                    data = new Dictionary<string, string>
+                        {
+                            { "screen_name", Uname },
+                            { "follow", "1" }
+                     };
+                }
+                else {
+                     url = "https://api.twitter.com/1.1/blocks/create.json";
+                    data = new Dictionary<string, string>
+                        {
+                            { "screen_name", Uname },
+                            { "skip_status", "1" }
+                     };
+                }
+               
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
+
+                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                    {
+                        DisplayAlert("sorry", "something went wrong", "ok");
+                        return;
+                    }
+                    var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                    await GenerateFollowerList();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
         private async Task GenerateFollowerList()
         {
             Authorization auth = new Authorization();

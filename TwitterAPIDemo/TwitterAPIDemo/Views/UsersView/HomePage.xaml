@@ -36,7 +36,9 @@
     <RelativeLayout>
         <ContentView RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
              RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
-            <ListView ItemsSource="{Binding tweets}">
+            <ListView ItemsSource="{Binding TweetData}" IsPullToRefreshEnabled="True" 
+                      IsRefreshing="{Binding IsFresh}"
+                      RefreshCommand="{Binding RefreshData}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

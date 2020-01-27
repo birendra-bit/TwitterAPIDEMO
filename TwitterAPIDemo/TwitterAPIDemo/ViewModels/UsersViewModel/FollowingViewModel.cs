@@ -37,9 +37,48 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             get { return new Command(UnfollowUser); }
         }
 
-        private void UnfollowUser(object obj)
+        private async void UnfollowUser(object obj)
         {
-            Debug.Write("hello "+ obj);
+            //bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
+            //if ( confirm )
+            //{
+            //    Debug.Write("hello " + obj);
+            //}
+            /*System.Reflection.PropertyInfo pi = obj.GetType().GetProperty("Uname");*/
+            string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
+            try
+            {
+                bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
+                if (confirm)
+                {
+                    Debug.Write("hello " + obj);
+                }
+                Authorization auth = new Authorization();
+                var url = "https://api.twitter.com/1.1/friendships/destroy.json";
+                var data = new Dictionary<string, string>
+                {
+                    { "screen_name", Uname }
+                };
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
+
+                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                    {
+                        DisplayAlert("sorry", "something went wrong", "ok");
+                        return;
+                    }
+                    var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                    await GenerateList();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            //await DestroyUser(Uname);
         }
 
         private async Task GenerateList()
@@ -72,9 +111,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 }
                 this.followingsList = followingsUser;
             }
-
-
         }
+        
         public class Following
         {
             public Following() { }

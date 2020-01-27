@@ -10,8 +10,6 @@ namespace TwitterAPIDemo.ViewModels.Base
     public abstract class BaseViewModel: ExtendedBindableObject
     {
         #region Initialization
-        public string authorization = "OAuth oauth_consumer_key=\"jVWQH3Qd7rzwrXFpbUnImqwUQ\",oauth_token=\"1165850293965209600-4efdWDjKAlScxCVL9EPi8wy42FiZYi\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1579496739\",oauth_nonce=\"BmRXbmoopR9\",oauth_version=\"1.0\",oauth_signature=\"gf%2FY2RZKGnFvNyVGe3yCQ%2Fl9yRg%3D\"";
-        public string callBackUrl = "http://mobile.twitter.com";
         private bool _isTablet;
         private bool _isBusy;
         //private bool _isBusyBlocking;
