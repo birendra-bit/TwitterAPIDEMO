@@ -23,7 +23,6 @@
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
         <Button Text="Search" HorizontalOptions="End" Clicked="Button_Clicked"/>
-        
         <StackLayout Orientation="Horizontal" Spacing="0" >
             <Label Text="Following" x:Name="following">
                 <Label.GestureRecognizers>

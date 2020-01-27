@@ -1,13 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Plugin.Media;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
-using System.Windows.Input;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
@@ -19,7 +16,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         public INavigation navigation;
         ProfilePageModel obj;
-       // string authToken = "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1580108411\",oauth_nonce=\"u8Sthm6oMRF\",oauth_version=\"1.0\",oauth_signature=\"IkN6Upr0MMzdQoBSgcAqkfNMb%2FA%3D\""; 
+        // string authToken = "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1580108411\",oauth_nonce=\"u8Sthm6oMRF\",oauth_version=\"1.0\",oauth_signature=\"IkN6Upr0MMzdQoBSgcAqkfNMb%2FA%3D\""; 
 
         public ProfileViewModel(INavigation navigation)
         {
@@ -78,7 +75,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             {
                 return new Command(async () =>
                 {
-                   await PostBanner(Banner);
+                    await PostBanner(Banner);
 
                 });
             }
@@ -121,7 +118,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 imgContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
                 var multipartContent = new MultipartFormDataContent();
                 multipartContent.Add(imgContent, "media");
-               
+
                 var data = new Dictionary<string, string>
             {
                     {"banner", "ashish" },
@@ -130,7 +127,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST" ));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
 
                     var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
@@ -148,8 +145,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
         }
 
-
-
         private async Task Profile()
         {
             try
@@ -161,13 +156,13 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 {
                     var data = new Dictionary<string, string>
                         {
-                            { "screen_name", "ashishchopra01" }
+                            { "screen_name", "Birendr19286036" }
                         };
-                    //string str = auth.PrepareOAuth(url, null, "GET");
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url,data,"GET"));
+
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "GET"));
                     UriBuilder builder = new UriBuilder(url);
-                    builder.Query = "screen_name=ashishchopra01";
-                    //httpClient.DefaultRequestHeaders.Add());
+                    builder.Query = "screen_name=Birendr19286036";
+                    
                     var httpResponse = httpClient.GetAsync(builder.Uri).Result;
                     Console.WriteLine(httpResponse);
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
@@ -185,7 +180,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     Description = obj.description;
                 }
             }
-            catch(Exception ex) { }
+            catch (Exception ex) { }
         }
 
         public string Name { get; set; }

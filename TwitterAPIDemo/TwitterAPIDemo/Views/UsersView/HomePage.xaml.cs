@@ -18,14 +18,5 @@ namespace TwitterAPIDemo.Views.UsersView
 			InitializeComponent ();
             BindingContext = new HomePageViewModel(Navigation);
         }
-
-        //protected async override void OnAppearing()
-        //{
-        //    base.OnAppearing();
-
-        //    var model = BindingContext as HomePageViewModel;
-
-        //    await model.usersTweets();
-        //}
     }
 }
