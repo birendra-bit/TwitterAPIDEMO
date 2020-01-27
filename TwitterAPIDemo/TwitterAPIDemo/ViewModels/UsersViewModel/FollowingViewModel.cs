@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Dynamic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
+using Xamarin.Forms;
 
 namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
@@ -15,15 +15,73 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         private bool apiHit = true;
         public List<Following> followingsList { get; set; }
-        public FollowingViewModel()
+        public override async Task InitializeAsync(Page page)
         {
+            await base.InitializeAsync(page);
+            //if (apiHit)
+            //{
+            //    followingsList = await GenerateList();
+            //    apiHit = false;
+            //}
+        }
+        
+        public FollowingViewModel(){
             if (apiHit)
             {
                 Task.Run(() => GenerateList()).Wait();
                 apiHit = false;
             }
         }
-        private async void  GenerateList()
+        public Command Unfollow
+        {
+            get { return new Command(UnfollowUser); }
+        }
+
+        private async void UnfollowUser(object obj)
+        {
+            //bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
+            //if ( confirm )
+            //{
+            //    Debug.Write("hello " + obj);
+            //}
+            /*System.Reflection.PropertyInfo pi = obj.GetType().GetProperty("Uname");*/
+            string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
+            try
+            {
+                bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
+                if (confirm)
+                {
+                    Debug.Write("hello " + obj);
+                }
+                Authorization auth = new Authorization();
+                var url = "https://api.twitter.com/1.1/friendships/destroy.json";
+                var data = new Dictionary<string, string>
+                {
+                    { "screen_name", Uname }
+                };
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
+
+                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                    {
+                        DisplayAlert("sorry", "something went wrong", "ok");
+                        return;
+                    }
+                    var httpContent = await httpResponse.Content.ReadAsStringAsync();
+                    await GenerateList();
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+            //await DestroyUser(Uname);
+        }
+
+        private async Task GenerateList()
         {
             Authorization auth = new Authorization();
             var url = "https://api.twitter.com/1.1/friends/list.json";
@@ -51,11 +109,10 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                         Status = "following"
                     });
                 }
-               this.followingsList = followingsUser;
+                this.followingsList = followingsUser;
             }
-               
-            
         }
+        
         public class Following
         {
             public Following() { }

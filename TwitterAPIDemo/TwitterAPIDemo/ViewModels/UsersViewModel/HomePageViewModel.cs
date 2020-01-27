@@ -12,14 +12,21 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
     public class HomePageViewModel : BaseViewModel
     {
-        public List<Tweets> tweets { get; set; }
+        private List<Tweets> tweetData;
+        public List<Tweets> TweetData {
+            get => tweetData;
+            set {
+                tweetData = value;
+                OnPropertyChanged();
+                }
+            }
         public HomePageViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
 
             Task.Run(() => usersTweets()).Wait();
         }
-
+        private bool isFresh;
         public Command OpenTweetPage
         {
             get
@@ -31,6 +38,22 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
         }
 
+        public bool IsFresh { get => isFresh;
+            set {
+                isFresh = value;
+                OnPropertyChanged();
+            }
+        }
+        public Command RefreshData
+        {
+            get
+            {
+                return new Command(() => {
+                    Task.Run(() => usersTweets()).Wait();
+                    IsFresh = false;
+                });
+            }
+        }
         public async Task usersTweets()
         {
             Authorization auth = new Authorization();
@@ -63,7 +86,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                         //TweetMedia = data.entities.urls.Count > 0 ?data.entities.urls[0].expanded_url:null
                     });
                 }
-                this.tweets = tweets1;
+                this.TweetData = tweets1;
             }
         }
         public class Tweets
