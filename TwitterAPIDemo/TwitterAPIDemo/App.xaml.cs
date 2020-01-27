@@ -9,7 +9,16 @@ namespace TwitterAPIDemo
     {
         public App()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+
+            }
+            catch (System.Exception ex)
+            {
+
+            }
+
 
             MainPage = new NavigationPage(new TabbedPageContainer());
         }

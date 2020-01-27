@@ -22,9 +22,8 @@
         </ResourceDictionary>
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
-        <StackLayout HorizontalOptions="End">
-            <ImageButton Source="adduser.png"/>
-        </StackLayout>
+        <Button Text="Search" HorizontalOptions="End" Clicked="Button_Clicked"/>
+        
         <StackLayout Orientation="Horizontal" Spacing="0" >
             <Label Text="Following" x:Name="following">
                 <Label.GestureRecognizers>

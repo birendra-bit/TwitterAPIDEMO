@@ -26,7 +26,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             this.Navigation = navigation;
 
-            Task.Run(async()=>await usersTweets());
+            Task.Run(() => usersTweets()).Wait();
         }
         private bool isFresh;
         public Command OpenTweetPage

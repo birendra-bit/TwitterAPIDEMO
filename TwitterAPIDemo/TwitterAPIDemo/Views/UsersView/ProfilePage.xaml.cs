@@ -1,8 +1,13 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using TwitterAPIDemo.ViewModels.UsersViewModel;
 using TwitterAPIDemo.Views.Base;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,6 +20,9 @@ namespace TwitterAPIDemo.Views.UsersView
 		public ProfilePage ()
 		{
 			InitializeComponent ();
-		}
-	}
+            BindingContext = new ProfileViewModel(Navigation);
+        }
+        
+
+    }
 }

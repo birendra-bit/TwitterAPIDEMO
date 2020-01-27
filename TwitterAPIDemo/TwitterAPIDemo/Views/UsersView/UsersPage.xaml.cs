@@ -28,5 +28,10 @@ namespace TwitterAPIDemo.Views.UsersView
             following.BackgroundColor = Color.Transparent;
             follower.BackgroundColor = Color.FromHex("#00bfff");
         }
+
+        private void Button_Clicked(object sender, System.EventArgs e)
+        {
+            Navigation.PushAsync(new SearchUserPage());
+        }
     }
 }
