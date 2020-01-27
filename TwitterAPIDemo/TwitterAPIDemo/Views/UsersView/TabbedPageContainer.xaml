@@ -5,7 +5,7 @@
             x:Class="TwitterAPIDemo.Views.UsersView.TabbedPageContainer"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            android:TabbedPage.BarSelectedItemColor="#00bfff"
+             android:TabbedPage.BarSelectedItemColor="#00bfff"
             BarTextColor="White"
             BarBackgroundColor="Black"
             >
@@ -13,3 +13,5 @@
     <local:ProfilePage Title="ProfilePage" Icon="profile1.png"/>
     <local:UsersPage Title="Users" Icon="users1.png"/>
 </TabbedPage>
+<!--android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarSelectedItemColor="#00bfff"-->

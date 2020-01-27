@@ -117,24 +117,26 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 Authorization auth = new Authorization();
                 var url = "https://api.twitter.com/1.1/account/update_profile_banner.json";
                 byte[] bannerdata = System.IO.File.ReadAllBytes(ImagePath);
+                //string s = Convert.ToBase64String(bannerdata, Base64FormattingOptions.InsertLineBreaks);
                 var imgContent = new ByteArrayContent(bannerdata);
                 imgContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
                 var multipartContent = new MultipartFormDataContent();
-                multipartContent.Add(imgContent, "media");
-               
-                var data = new Dictionary<string, string>
-            {
-                    {"banner", "ashish" },
-                    {"width" , "1500"}
-            };
+                multipartContent.Add(imgContent, "banner");
+
+            //    var data = new Dictionary<string, string>
+            //{
+            //        {"banner",   },
+            //        {"width" , "1500"}
+            //};
 
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST" ));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "POST" ));
 
-                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    var httpResponse = await httpClient.PostAsync(url, multipartContent);
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
                     {
+
                         DisplayAlert("sorry", "You are not authorized", "ok");
                         return;
                     }
