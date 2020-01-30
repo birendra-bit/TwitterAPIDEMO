@@ -3,6 +3,7 @@ using Plugin.Media;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -19,56 +20,104 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         public INavigation navigation;
         ProfilePageModel obj;
-       // string authToken = "OAuth oauth_consumer_key=\"Cf1w0izou1SdsMCq7M4wAewlH\",oauth_token=\"1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu\",oauth_signature_method=\"HMAC-SHA1\",oauth_timestamp=\"1580108411\",oauth_nonce=\"u8Sthm6oMRF\",oauth_version=\"1.0\",oauth_signature=\"IkN6Upr0MMzdQoBSgcAqkfNMb%2FA%3D\""; 
-
+        bool flag = false;
         public ProfileViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
             Task.Run(() => Profile()).Wait();
         }
+        public bool Visibility
+        {
+            get { return visibility; }
+            set
+            {
+                visibility = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+        public Command EditProfile
+        {
+            get
+            {
+                return new Command(async (object obj) =>
+                {
+                    string property = obj.ToString();
+                    Dictionary<string, string> data = new Dictionary<string, string>();
+                    //data.Add("name", "Name");
+                    if (property == "EditName")
+                    {
+                        data = new Dictionary<string, string>
+                    {
+                        {"name" , Name }
+                    };
+                        await Update(data);
+                        var message = "Name has been updated";
+                        DependencyService.Get<iMessage>().Shorttime(message);
+                    }
 
-        //public override Task InitializeAsync(Page page)
-        //{
-        //    return base.InitializeAsync(page);
-        //}
+                    else if (property == "EditDescription")
+                    {
+                        data = new Dictionary<string, string>
+                        {
+                            {"description", Description }
+                        };
+                        await Update(data);
+                        var message = "Description has been updated";
+                        DependencyService.Get<iMessage>().Shorttime(message);
+                    }
 
-        //public Command EditProfile
-        //{
-        //    get
-        //    {
-        //        return new Command(() =>
-        //        {
-        //            //Navigation.PushAsync(new EditProfile());
-        //            UpdateName(Name);
-        //        });
-        //    }
-        //}
-        private string banner;
-        //private object https;
-        //private int multipart;
-        //private int form;
-        //private int formdata;
-        //private string mutipartContent;
-
+                });
+            }
+        }
         public string Banner
         {
             get { return banner; }
             set
             {
-                //if (banner != value)
-                //{
                 banner = value;
                 OnPropertyChanged();
-                //};
             }
         }
+
+        public string ProfileImage
+        {
+            get { return profileImage; }
+            set
+            {
+                profileImage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Command UploadImage
         {
             get
             {
-                return new Command(async () =>
+                return new Command(async (object obj) =>
                     {
-                        Banner = await ClickToUpload();
+                        string type = obj.ToString();
+                        if (type == "banner")
+                        {
+                            flag = true;
+                            Banner = await ClickToUpload();
+                            Visibility = true;
+
+                        }
+                        else if (type == "ProfileImage")
+                        {
+                            ProfileImage = await ClickToUpload();
+                            Visibility = true;
+
+                        }
                     });
             }
         }
@@ -76,10 +125,26 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get
             {
-                return new Command(async () =>
+                return new Command(async (object obj) =>
                 {
-                   await PostBanner(Banner);
+                    string save = obj.ToString();
+                    if (flag == true)
+                    {
 
+                        var url = "https://api.twitter.com/1.1/account/update_profile_banner.json";
+                        await PostBanner(Banner, url.ToString());
+                        var message = "Banner has been Updated";
+                        DependencyService.Get<iMessage>().Shorttime(message);
+                        flag = false;
+                    }
+                    else
+                    {
+
+                        var url = "https://api.twitter.com/1.1/account/update_profile_image.json";
+                        await PostBanner(ProfileImage, url.ToString());
+                        var message = "Profile Image has been updated";
+                        DependencyService.Get<iMessage>().Shorttime(message);
+                    }
                 });
             }
         }
@@ -92,46 +157,62 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
             var file = await CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
             {
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Full
             });
+
 
             if (file == null)
                 return null;
-            return file.Path;
-
+            else
+            {
+                return file.Path;
+            }
         }
-
-        //private void UpdateName(string name)
-        //{
-        //    string url = "https://api.twitter.com/1.1/account/update_profile.json?name=" + name;
-        //    PostApi(url);
-        //}
-        //POST API
-        private async Task PostBanner(string ImagePath)
+        private async Task Update(Dictionary<string, string> data)
         {
-            string mediaId = string.Empty;
-            string banner_img = string.Empty;
             try
             {
-                Console.WriteLine(ImagePath);
                 Authorization auth = new Authorization();
-                var url = "https://api.twitter.com/1.1/account/update_profile_banner.json";
+                var url = "https://api.twitter.com/1.1/account/update_profile.json";
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
+
+                    var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                    if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
+                    {
+                        DisplayAlert("sorry", "You are not authorized", "ok");
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        private async Task PostBanner(string ImagePath, string url)
+        {
+            try
+            {
+                Authorization auth = new Authorization();
                 byte[] bannerdata = System.IO.File.ReadAllBytes(ImagePath);
                 //string s = Convert.ToBase64String(bannerdata, Base64FormattingOptions.InsertLineBreaks);
                 var imgContent = new ByteArrayContent(bannerdata);
                 imgContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
                 var multipartContent = new MultipartFormDataContent();
-                multipartContent.Add(imgContent, "banner");
-
-            //    var data = new Dictionary<string, string>
-            //{
-            //        {"banner",   },
-            //        {"width" , "1500"}
-            //};
-
+                if (flag == true)
+                {
+                    multipartContent.Add(imgContent, "banner");
+                }
+                else
+                {
+                    multipartContent.Add(imgContent, "image");
+                }
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "POST" ));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "POST"));
 
                     var httpResponse = await httpClient.PostAsync(url, multipartContent);
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
@@ -140,18 +221,13 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                         DisplayAlert("sorry", "You are not authorized", "ok");
                         return;
                     }
-
                 }
             }
             catch (Exception ex)
             {
 
             }
-
         }
-
-
-
         private async Task Profile()
         {
             try
@@ -165,11 +241,9 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                         {
                             { "screen_name", "ashishchopra01" }
                         };
-                    //string str = auth.PrepareOAuth(url, null, "GET");
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url,data,"GET"));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "GET"));
                     UriBuilder builder = new UriBuilder(url);
                     builder.Query = "screen_name=ashishchopra01";
-                    //httpClient.DefaultRequestHeaders.Add());
                     var httpResponse = httpClient.GetAsync(builder.Uri).Result;
                     Console.WriteLine(httpResponse);
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
@@ -187,15 +261,17 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     Description = obj.description;
                 }
             }
-            catch(Exception ex) { }
+            catch (Exception ex) { }
         }
-
-        public string Name { get; set; }
+        private string banner;
+        private string profileImage;
+        private string name;
+        private Button SaveButton;
+        private bool visibility;
         public string Username { get; set; }
         public string Location { get; set; }
-        public string ProfileImage { get; set; }
         public string Description { get; set; }
 
     }
-
 }
+

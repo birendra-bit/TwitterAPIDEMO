@@ -22,7 +22,5 @@ namespace TwitterAPIDemo.Views.UsersView
 			InitializeComponent ();
             BindingContext = new ProfileViewModel(Navigation);
         }
-        
-
     }
 }
