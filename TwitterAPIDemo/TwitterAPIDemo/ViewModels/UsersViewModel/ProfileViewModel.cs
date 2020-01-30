@@ -1,14 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Plugin.Media;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
-using System.Windows.Input;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
@@ -21,6 +18,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         public INavigation navigation;
         ProfilePageModel obj;
         bool flag = false;
+
         public ProfileViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
@@ -202,6 +200,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 var imgContent = new ByteArrayContent(bannerdata);
                 imgContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
                 var multipartContent = new MultipartFormDataContent();
+
                 if (flag == true)
                 {
                     multipartContent.Add(imgContent, "banner");
@@ -239,11 +238,14 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 {
                     var data = new Dictionary<string, string>
                         {
-                            { "screen_name", "ashishchopra01" }
+                            { "screen_name", "Birendr19286036" }
                         };
+
+
                     httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "GET"));
                     UriBuilder builder = new UriBuilder(url);
-                    builder.Query = "screen_name=ashishchopra01";
+                    builder.Query = "screen_name=Birendr19286036";
+                    
                     var httpResponse = httpClient.GetAsync(builder.Uri).Result;
                     Console.WriteLine(httpResponse);
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))

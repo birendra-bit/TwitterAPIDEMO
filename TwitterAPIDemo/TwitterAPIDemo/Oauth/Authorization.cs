@@ -19,10 +19,10 @@ namespace TwitterAPIDemo.Oauth
 
         public Authorization()
         {
-            _consumerKey = "Cf1w0izou1SdsMCq7M4wAewlH";
-            _consumerKeySecret = "u6TPTIL7SaDgMxSqrX88dlNZD3g8nmFJzT6JraPCauPGcu3KHr";
-            _accessToken = "1215223960352149504-NI9GmNzFkuwhDO9d1oJ1kbuGDFCSQu";
-            _accessTokenSecret = "SaghA1BHFhiro7fmLGnqviTxyu1i5YdV3EKpefkcKqyKv";
+            _consumerKey = "KkxKgkRtuqlPr3soX0agl86oL";
+            _consumerKeySecret = "ulxHokYPyF8QC6IOzTqAHyOyv55LhaamMGwBvY4ZDhLAACjlyG";
+            _accessToken = "1165850293965209600-y5Muf29Z8wxnBc50YyhJdbOCD1wW8f";
+            _accessTokenSecret = "re30nRG9lt7jiuV64iDpOZCFoojujpFdWODqL0GVxSXlC";
             _limit = 280;
 
             _sigHasher = new HMACSHA1(
