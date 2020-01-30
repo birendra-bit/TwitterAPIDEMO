@@ -42,11 +42,11 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
             try
             {
-                //bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
-                //if (confirm)
-                //{
-                //    Debug.Write("hello " + obj);
-                //}
+                bool confirm = await DisplalertAlertWithResponse("Unfollow", "users", "Yes", "No");
+                if (confirm)
+                {
+                    Debug.Write("hello " + obj);
+                }
                 Authorization auth = new Authorization();
                 var url = "https://api.twitter.com/1.1/friendships/destroy.json";
                 var data = new Dictionary<string, string>

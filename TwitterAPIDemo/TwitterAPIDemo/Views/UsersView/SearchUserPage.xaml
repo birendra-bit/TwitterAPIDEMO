@@ -22,7 +22,7 @@
     <ContentPage.Content>
         <StackLayout>
             <SearchBar x:Name="MainSearchBar" 
-                       PlaceholderColor="Blue"
+                       PlaceholderColor="Wheat"
                        TextColor="White"
                        Placeholder="Enter name to search"
                        CancelButtonColor="Orange"
@@ -49,11 +49,11 @@
                             </StackLayout>
                             <StackLayout Grid.Row="0" Grid.Column="1">
                                 <Label Text="{Binding Name}" Style="{StaticResource name}" FontSize="18"/>
-                                <Label Text="{Binding Username}" Style="{StaticResource uname}"/>
+                                    <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
                             </StackLayout>
                             <StackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
                                     <Button Text="{Binding Status}" 
-                                            Command="{Binding Path=BindingContext.Follow,Source={x:Reference SearchUser}}"
+                                            Command="{Binding Path=BindingContext.Follow,Source={x:Reference searchUser}}"
                                             CommandParameter="{Binding .}"
                                             />
                             </StackLayout>

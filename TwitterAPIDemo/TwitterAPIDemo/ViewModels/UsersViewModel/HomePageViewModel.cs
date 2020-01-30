@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Oauth;
 using TwitterAPIDemo.ViewModels.Base;
@@ -15,13 +13,15 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     public class HomePageViewModel : BaseViewModel
     {
         private List<Tweets> tweetData;
-        public List<Tweets> TweetData {
+        public List<Tweets> TweetData
+        {
             get => tweetData;
-            set {
+            set
+            {
                 tweetData = value;
                 OnPropertyChanged();
-                }
             }
+        }
         public HomePageViewModel(INavigation navigation)
         {
             this.Navigation = navigation;
@@ -39,9 +39,11 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 });
             }
         }
-
-        public bool IsFresh { get => isFresh;
-            set {
+        public bool IsFresh
+        {
+            get => isFresh;
+            set
+            {
                 isFresh = value;
                 OnPropertyChanged();
             }
@@ -50,7 +52,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get
             {
-                return new Command(() => {
+                return new Command(() =>
+                {
                     Task.Run(() => usersTweets()).Wait();
                     IsFresh = false;
                 });
@@ -63,18 +66,9 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
             using (var httpClient = new HttpClient())
             {
-                //var data1 = new Dictionary<string, string>
-                //{
-                //    {"screen_name", "Birendr19286036"}
-                //};
 
                 httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "GET"));
 
-                //UriBuilder builder = new UriBuilder("https://api.twitter.com/1.1/users/show.json");
-                //builder.Query = "screen_name=Birendr19286036";
-                ////builder.Query = Uri.EscapeDataString(builder.Query);
-                //var result = httpClient.GetAsync(builder.Uri).Result;
-                
                 var httpResponse = await httpClient.GetAsync(url);
                 if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
@@ -82,7 +76,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     return;
                 }
                 var httpContent = await httpResponse.Content.ReadAsStringAsync();
-                
+
                 var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(httpContent);
                 List<Tweets> tweets1 = new List<Tweets>();
                 foreach (var data in usersTweets)
@@ -94,7 +88,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                         ProfileImg = data.user.profile_image_url,
                         TweetText = data.text,
                         TweetMedia = data.user.profile_banner_url
-                        //TweetMedia = data.entities.urls.Count > 0 ?data.entities.urls[0].expanded_url:null
                     });
                 }
                 this.TweetData = tweets1;

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,7 +16,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     public class SearchViewModel : BaseViewModel
     {
         private ObservableCollection<Details> searchUser;
-
         public ObservableCollection<Details> SearchUser
         {
             get
@@ -34,21 +34,14 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         }
         public ICommand PerformSearch => new Command<string>(async (query) =>
         {
-            var users = await SearchDataList(query);
-
-            SearchUser.Clear();
-            if (users == null)
-            {
-                return;
-            }
-            //(System.NullReferenceException)
-            users.ForEach(a => SearchUser.Add(a));
+            await SearchDataList(query);
         });
-        private async Task<List<Details>> SearchDataList(string name)
+        private async Task SearchDataList(string name)
         {
             try
             {
-                using ( var httpClient = new HttpClient()){
+                using (var httpClient = new HttpClient())
+                {
 
                     Authorization auth = new Authorization();
                     string url = "https://api.twitter.com/1.1/users/search.json";
@@ -60,42 +53,59 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data1, "GET"));
 
                     UriBuilder builder = new UriBuilder(url);
-                    builder.Query = "q="+name;
+                    builder.Query = "q=" + name;
 
                     var httpResponse = httpClient.GetAsync(builder.Uri).Result;
                     if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
                     {
                         DisplayAlert("sorry", "You are not authorized", "ok");
-                        return null;
                     }
                     var httpContent = await httpResponse.Content.ReadAsStringAsync();
                     var Users = JsonConvert.DeserializeObject<List<User>>(httpContent);
-
-                    List<Details> SearchResult = new List<Details>();
+                    this.searchUser.Clear();
+                    SearchUser = new ObservableCollection<Details>();
                     foreach (var data in Users)
                     {
-                        SearchResult.Add(new Details
+                        SearchUser.Add(new Details
                         {
                             Name = data.name,
-                            Username = data.screen_name,
+                            Uname = data.screen_name,
                             ProfileImgUrl = data.profile_image_url,
                             Status = "Follow"
                         });
                     }
-                    return SearchResult;
                 }
             }
-            catch(Exception e) {
-                return null;
+            catch (Exception e)
+            {
             }
         }
         public Command Follow
         {
             get
             {
-                return new Command(() =>
+                return new Command(async (obj) =>
                 {
+                    string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
 
+                    Authorization auth = new Authorization();
+                    string url = "https://api.twitter.com/1.1/friendships/create.json";
+                    Dictionary<string, string> data = new Dictionary<string, string>
+                    {
+                        { "screen_name", Uname },
+                        { "follow", "1" }
+                    };
+                    using (var httpClient = new HttpClient())
+                    {
+                        httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
+
+                        var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
+                        if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                        {
+                            DisplayAlert("sorry", "something went wrong", "ok");
+                            return;
+                        }
+                    }
                 });
             }
         }
@@ -103,7 +113,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             public Details() { }
             public string Name { get; set; }
-            public string Username { get; set; }
+            public string Uname { get; set; }
             public string ProfileImgUrl { get; set; }
             public string Status { get; set; }
         }
