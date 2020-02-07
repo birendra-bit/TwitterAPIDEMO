@@ -7,6 +7,9 @@
              BackgroundColor="Black">
     <local:BaseContentPage.Resources>
         <ResourceDictionary>
+            <Style TargetType="Grid">
+                <Setter Property="Margin" Value="5"/>
+            </Style>
             <Style TargetType="ImageButton">
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="WidthRequest" Value="40"/>
@@ -22,21 +25,90 @@
         </ResourceDictionary>
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
-        <ImageButton Source="searchUser.png" HorizontalOptions="End" Clicked="Button_Clicked"/>
+        <ImageButton Source="searchUser.png" 
+                     HorizontalOptions="End"/>
         <StackLayout Orientation="Horizontal" Spacing="0" >
-            <Label Text="Following" x:Name="following">
+            <Label Text="Follower" 
+                   BackgroundColor="{Binding BgColorFollower}">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer 
-                        Tapped="DisplayFollowingUsers"/>
+                    <TapGestureRecognizer
+                        Command="{Binding DisplayFollower}"/>
                 </Label.GestureRecognizers>
             </Label>
-            <Label Text="Follower" x:Name="follower">
+            <Label Text="Following"
+                   BackgroundColor="{Binding BgColorFollowing}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
-                        Tapped="DisplayFollower"/>
+                       Command="{Binding DisplayFollowing}"/>
                 </Label.GestureRecognizers>
             </Label>
         </StackLayout>
-        <ContentView x:Name="content"/>
+        <ListView ItemsSource="{Binding FollowerList}"
+                  IsVisible="{Binding IsFollowerVisible}"
+                  x:Name="follower1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Frame Style="{StaticResource ProfileImgFrameStyle}">
+                                <Image Source="{Binding ProfileImgUrl}"
+                                       Style="{StaticResource ProfileImgStyle}"/>
+                            </Frame>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="{Binding Name}" 
+                                       Style="{StaticResource NameStyle}"/>
+                                <Label Text="{Binding ScreenName}" 
+                                       Style="{StaticResource ScreenNameStyle}"/>
+                            </StackLayout>
+                            <Button Grid.Column="2"
+                                Text="{Binding Status}" 
+                                Style="{StaticResource FollowBtnStyle}"
+                                Command="{Binding Path=BindingContext.CreateOrDestroyFriends,
+                                Source={x:Reference follower1}}"
+                                CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView ItemsSource="{Binding FollowingList}"
+                  x:Name="Following1"
+                  IsVisible="{Binding IsFollowingVisible}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Frame Style="{StaticResource ProfileImgFrameStyle}">
+                                <Image Source="{Binding ProfileImgUrl}"
+                                       Style="{StaticResource ProfileImgStyle}"/>
+                            </Frame>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="{Binding Name}" 
+                                       Style="{StaticResource NameStyle}"
+                                       FontSize="15"/>
+                                <Label Text="{Binding ScreenName}" 
+                                       Style="{StaticResource ScreenNameStyle}"/>
+                            </StackLayout>
+                            <Button Grid.Column="2"
+                                    Text="{Binding Status}"
+                                    Style="{StaticResource FollowBtnStyle}"
+                                    Command="{Binding Path=BindingContext.Unfollow, 
+                                    Source={x:Reference Following1}}"
+                                    CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </local:BaseContentPage>

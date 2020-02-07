@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TwitterAPIDemo.Oauth
+namespace TwitterAPIDemo.Network
 {
-    public class Authorization
+    public class Oauth
     {
         readonly string _consumerKey;
         readonly string _consumerKeySecret;
@@ -16,7 +16,7 @@ namespace TwitterAPIDemo.Oauth
         readonly DateTime _epochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         readonly int _limit;
 
-        public Authorization()
+        public Oauth()
         {
             _consumerKey = "KkxKgkRtuqlPr3soX0agl86oL";
             _consumerKeySecret = "ulxHokYPyF8QC6IOzTqAHyOyv55LhaamMGwBvY4ZDhLAACjlyG";

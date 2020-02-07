@@ -10,7 +10,7 @@ namespace TwitterAPIDemo.Views.UsersView
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = new HomePageViewModel(Navigation);
+            BindingContext = new HomePageViewModel();
         }
     }
 }

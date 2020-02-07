@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -42,7 +41,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             {
                 using (var httpClient = new HttpClient())
                 {
-
                     Authorization auth = new Authorization();
                     string url = "https://api.twitter.com/1.1/users/search.json";
                     var data1 = new Dictionary<string, string>

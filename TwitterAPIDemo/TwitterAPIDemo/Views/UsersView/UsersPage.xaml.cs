@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
+﻿using TwitterAPIDemo.ViewModels.UsersViewModel;
 using TwitterAPIDemo.Views.Base;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace TwitterAPIDemo.Views.UsersView
@@ -11,27 +10,28 @@ namespace TwitterAPIDemo.Views.UsersView
         public UsersPage()
         {
             InitializeComponent();
-            DisplayFollowingUsers(null, null);
+            BindingContext = new UserPageViewModel();
+            //DisplayFollowingUsers(null, null);
         }
 
-        private void DisplayFollowingUsers(object sender, System.EventArgs e)
-        {
+        //private void DisplayFollowingUsers(object sender, System.EventArgs e)
+        //{
 
-            content.Content = new FollowingPage();
-            following.BackgroundColor = Color.FromHex("#00bfff");
-            follower.BackgroundColor = Color.Transparent;
-        }
+        //    content.Content = new FollowingPage();
+        //    following.BackgroundColor = Color.FromHex("#00bfff");
+        //    follower.BackgroundColor = Color.Transparent;
+        //}
 
-        private void DisplayFollower(object sender, System.EventArgs e)
-        {
-            content.Content = new FollowerPage();
-            following.BackgroundColor = Color.Transparent;
-            follower.BackgroundColor = Color.FromHex("#00bfff");
-        }
+        //private void DisplayFollower(object sender, System.EventArgs e)
+        //{
+        //    content.Content = new FollowerPage();
+        //    following.BackgroundColor = Color.Transparent;
+        //    follower.BackgroundColor = Color.FromHex("#00bfff");
+        //}
 
-        private void Button_Clicked(object sender, System.EventArgs e)
-        {
-            Navigation.PushAsync(new SearchUserPage());
-        }
+        //private void Button_Clicked(object sender, System.EventArgs e)
+        //{
+        //    Navigation.PushAsync(new SearchUserPage());
+        //}
     }
 }

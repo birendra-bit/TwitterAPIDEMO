@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
-using TwitterAPIDemo.Oauth;
+using TwitterAPIDemo.Network;
 using TwitterAPIDemo.ViewModels.Base;
 using TwitterAPIDemo.Views.UsersView;
 using Xamarin.Forms;
@@ -12,8 +12,9 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
     public class HomePageViewModel : BaseViewModel
     {
-        private List<Tweets> tweetData;
-        public List<Tweets> TweetData
+        APIservice _aPIservice;
+        private ObservableCollection<Tweets> tweetData { get; set; }
+        public ObservableCollection<Tweets> TweetData
         {
             get => tweetData;
             set
@@ -22,10 +23,9 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 OnPropertyChanged();
             }
         }
-        public HomePageViewModel(INavigation navigation)
+        public HomePageViewModel()
         {
-            this.Navigation = navigation;
-
+            TweetData = new ObservableCollection<Tweets>();
             Task.Run(() => usersTweets()).Wait();
         }
         private bool isFresh;
@@ -52,45 +52,31 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get
             {
-                return new Command(() =>
+                return new Command( async() =>
                 {
-                    Task.Run(() => usersTweets()).Wait();
+                    TweetData.Clear();
+                    await usersTweets();
                     IsFresh = false;
                 });
             }
         }
         public async Task usersTweets()
         {
-            Authorization auth = new Authorization();
+            _aPIservice = new APIservice();
             var url = "https://api.twitter.com/1.1/statuses/home_timeline.json";
-
-            using (var httpClient = new HttpClient())
+            var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(await _aPIservice.GetResponse(url, null));
+            if (usersTweets == null)
+                return;
+            foreach (var data in usersTweets)
             {
-
-                httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, null, "GET"));
-
-                var httpResponse = await httpClient.GetAsync(url);
-                if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+                TweetData.Add(new Tweets
                 {
-                    DisplayAlert("sorry", "something went wrong", "ok");
-                    return;
-                }
-                var httpContent = await httpResponse.Content.ReadAsStringAsync();
-
-                var usersTweets = JsonConvert.DeserializeObject<List<UsersTweets>>(httpContent);
-                List<Tweets> tweets1 = new List<Tweets>();
-                foreach (var data in usersTweets)
-                {
-                    tweets1.Add(new Tweets
-                    {
-                        Name = data.user.name,
-                        Uname = data.user.screen_name,
-                        ProfileImg = data.user.profile_image_url,
-                        TweetText = data.text,
-                        TweetMedia = data.user.profile_banner_url
-                    });
-                }
-                this.TweetData = tweets1;
+                    Name = data.user.name,
+                    Uname = data.user.screen_name,
+                    ProfileImg = data.user.profile_image_url,
+                    TweetText = data.text,
+                    TweetMedia = data.user.profile_banner_url
+                });
             }
         }
         public class Tweets

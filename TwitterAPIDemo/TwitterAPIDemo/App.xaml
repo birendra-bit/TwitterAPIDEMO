@@ -4,49 +4,62 @@
              x:Class="TwitterAPIDemo.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Style x:Key="profileImgFrame" TargetType="Frame" >
-                <Setter Property="HeightRequest" Value="100"/>
-                <Setter Property="WidthRequest" Value="100"/>
-                <Setter Property="CornerRadius" Value="50"/>
+            <Style x:Key="ProfileImgFrameStyle" TargetType="Frame" >
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="WidthRequest" Value="50"/>
+                <Setter Property="CornerRadius" Value="25"/>
                 <Setter Property="IsClippedToBounds" Value="True"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
             </Style>
             <Style TargetType="ListView">
                 <Setter Property="HasUnevenRows" Value="True"/>
                 <Setter Property="SelectionMode" Value="None"/>
-                <!--<Setter Property="VerticalScrollBarEnabled" Value="false"/>-->
+                <Setter Property="BackgroundColor" Value="Black"/>
             </Style>
-            <Style x:Key="profileImg" TargetType="Image">
+            <Style TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Spacing" Value="5"/>
+            </Style>
+            <Style TargetType="Grid">
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+            <Style x:Key="ProfileImgStyle" TargetType="Image">
                 <Setter Property="Aspect" Value="AspectFill"/>
-                <Setter Property="Margin" Value="-20"/>
                 <Setter Property="HeightRequest" Value="60"/>
                 <Setter Property="WidthRequest" Value="60"/>
                 <Setter Property="VerticalOptions" Value="StartAndExpand"/>
             </Style>
-            <Style x:Key="name" TargetType="Label">
-                <Setter Property="FontSize" Value="20"/>
+            <Style x:Key="NameStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="15"/>
                 <Setter Property="TextColor" Value="White"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="VerticalTextAlignment" Value="Start"/>
             </Style>
-            <Style x:Key="uname" TargetType="Label">
-                <Setter Property="FontSize" Value="15"/>
+            <Style x:Key="ScreenNameStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
                 <Setter Property="TextColor" Value="LightBlue"/>
             </Style>
-            <Style x:Key="imgBtn" TargetType="ImageButton">
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="WidthRequest" Value="50"/>
+            <Style x:Key="ProfileImgBtnStyle" TargetType="ImageButton">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
                 <Setter Property="CornerRadius" Value="25"/>
                 <Setter Property="Aspect" Value="AspectFill"/>
             </Style>
-            <Style x:Key="followBtn" TargetType="Button">
-                <Setter Property="HeightRequest" Value="40"/>
-                <Setter Property="CornerRadius" Value="10"/>
+            <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="#00bfff"/>
                 <Setter Property="TextColor" Value="White"/>
-                <Setter Property="FontSize" Value="15"/>
-                <Setter Property="WidthRequest" Value="110"/>
                 <Setter Property="HorizontalOptions" Value="Center"/>
                 <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            <Style x:Key="FollowBtnStyle" TargetType="Button">
+                <Setter Property="HeightRequest" Value="35"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="WidthRequest" Value="95"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

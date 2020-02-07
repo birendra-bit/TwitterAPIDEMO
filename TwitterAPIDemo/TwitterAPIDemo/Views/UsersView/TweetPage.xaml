@@ -9,7 +9,7 @@
             <Style TargetType="Grid">
                 <Setter Property="Margin" Value="10"/>
             </Style>
-            <Style x:Key="closeBtn" TargetType="Button">
+            <Style x:Key="CloseBtnStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="TextColor" Value="#00bfff"/>
                 <Setter Property="FontSize" Value="25"/>
@@ -18,34 +18,28 @@
                 <Setter Property="WidthRequest" Value="50"/>
                 <Setter Property="BorderRadius" Value="20"/>
             </Style>
-            <Style x:Key="tweetBtn" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="#00bfff"/>
+            <Style x:Key="TweetBtnStyle" TargetType="Button">
                 <Setter Property="HeightRequest" Value="40"/>
-                <Setter Property="WidthRequest" Value="90"/>
-                <!--<Setter Property="CornerRadius" Value="10"/>-->
-                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="WidthRequest" Value="85"/>
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="BorderRadius" Value="10"/>
             </Style>
-            <Style x:Key="uploadBtn" TargetType="ImageButton">
+            <Style x:Key="UploadBtnStyle" TargetType="ImageButton">
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="WidthRequest" Value="40"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="Aspect" Value="AspectFill"/>
             </Style>
-            <Style x:Key="tweetImg" TargetType="Frame" BasedOn="{StaticResource profileImgFrame}">
+            <Style x:Key="TweetImgStyle" TargetType="Frame" BasedOn="{StaticResource ProfileImgFrameStyle}">
                 <Setter Property="HeightRequest" Value="20"/>
                 <Setter Property="WidthRequest" Value="30"/>
-            </Style>
-            <Style TargetType="Editor">
-                
             </Style>
         </ResourceDictionary>
     </base:BaseContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -54,23 +48,33 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
-        <StackLayout Grid.Row="0" Grid.Column="0">
-            <Button Text="X" Style="{StaticResource closeBtn}" Command="{Binding CloseBtn}" />
-        </StackLayout>
-        <StackLayout Grid.Row="0" Grid.Column="2">
-            <Button Text="Tweet" Style="{StaticResource tweetBtn}" Command="{Binding TweetBtn}" />
-        </StackLayout>
-        <StackLayout Grid.Row="1" Grid.Column="0" >
-            <Frame Style="{StaticResource tweetImg}">
-                <Image Source="addtweets.png" Style="{StaticResource profileImg}"/>
+        <Button Text="X" 
+                Style="{StaticResource CloseBtnStyle}" 
+                Command="{Binding CloseBtn}" />
+        <Button Grid.Column="2" 
+                Text="Tweet" 
+                Style="{StaticResource TweetBtnStyle}" 
+                Command="{Binding TweetBtn}" />
+        <StackLayout Grid.Row="1" Grid.Column="0">
+            <Frame 
+                   Style="{StaticResource TweetImgStyle}">
+                <Image Source="addtweets.png" 
+                   Style="{StaticResource ProfileImgStyle}"/>
             </Frame>
         </StackLayout>
-        <StackLayout Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
-            <Editor Placeholder="What is happening!" HeightRequest="80" Text="{Binding Text, Mode=TwoWay}" />
-            <Image  HeightRequest="300" WidthRequest="300" Source="{Binding SourceImg}"/>
+        <StackLayout Grid.Row="1" 
+                     Grid.Column="1" 
+                     Grid.ColumnSpan="2">
+            <Editor Placeholder="What is happening!" 
+                    HeightRequest="80" 
+                    Text="{Binding Text, Mode=TwoWay}" />
+            <Image  HeightRequest="300" 
+                    WidthRequest="300" 
+                    Source="{Binding SourceImg}"/>
         </StackLayout>
-        <StackLayout Grid.Row="2" Grid.Column="0">
-            <ImageButton Source="upload.png" Style="{StaticResource uploadBtn}" Command="{Binding UploadImage}" />
-        </StackLayout>
+        <ImageButton Grid.Row="2" Grid.Column="0"
+                    Source="upload.png" 
+                    Style="{StaticResource UploadBtnStyle}" 
+                    Command="{Binding UploadImage}"/>
     </Grid>
 </base:BaseContentPage>
