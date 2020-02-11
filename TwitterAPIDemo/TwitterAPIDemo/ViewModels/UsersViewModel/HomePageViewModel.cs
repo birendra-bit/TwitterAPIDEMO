@@ -14,6 +14,12 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
     {
         APIservice _aPIservice;
         private ObservableCollection<Tweets> tweetData { get; set; }
+        public HomePageViewModel(){}
+        public override async Task InitializeAsync(Page page)
+        {
+            TweetData = new ObservableCollection<Tweets>();
+            await usersTweets();
+        }
         public ObservableCollection<Tweets> TweetData
         {
             get => tweetData;
@@ -22,11 +28,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                 tweetData = value;
                 OnPropertyChanged();
             }
-        }
-        public HomePageViewModel()
-        {
-            TweetData = new ObservableCollection<Tweets>();
-            Task.Run(() => usersTweets()).Wait();
         }
         private bool isFresh;
         public Command OpenTweetPage

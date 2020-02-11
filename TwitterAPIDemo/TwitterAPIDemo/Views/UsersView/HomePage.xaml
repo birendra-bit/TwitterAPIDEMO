@@ -70,40 +70,6 @@
                                     <Image Source="{Binding TweetMedia}" />
                                 </StackLayout>
                             </Grid>
-                            <!--<Frame BackgroundColor="Black">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="50"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Frame HeightRequest="50"
-                                           WidthRequest="50"
-                                           CornerRadius="25"
-                                           HorizontalOptions="Center"
-                                           Padding="0"
-                                           IsClippedToBounds="True">
-                                        <Image Source="{Binding ProfileImg}"
-                                               Style="{StaticResource ProfileImgStyle}"/>
-                                    </Frame>
-                                    <StackLayout Grid.Column="1" 
-                                                 VerticalOptions="Start">
-                                        <Label Text="{Binding Name}" 
-                                               Style="{StaticResource NameStyle}" />
-                                        <Label Text="{Binding Uname}" 
-                                               Style="{StaticResource ScreenNameStyle}"/>
-                                    </StackLayout>
-                                    <StackLayout Grid.Row="1" Grid.Column="1" 
-                                                 VerticalOptions="StartAndExpand">
-                                        <Label Text="{Binding TweetText}" 
-                                               Style="{StaticResource TextStyle}" />
-                                        <Image Source="{Binding TweetMedia}" />
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>-->
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -115,7 +81,7 @@
                 Text="+"
                 RelativeLayout.XConstraint="{ConstraintExpression 
                         Type=RelativeToParent, 
-                        Property=Width, 
+                        Property=Width,
                         Factor=1, 
                         Constant=-70}"  
                 RelativeLayout.YConstraint="{ConstraintExpression 

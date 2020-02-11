@@ -18,9 +18,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         private string _text;
         private string _sourceImg;
         MediaUpload _media;
-        public TweetPageViewModel(INavigation navigation)
+        public TweetPageViewModel()
         {
-            Navigation = navigation;
             _media = new MediaUpload();
         }
         public Command CloseBtn

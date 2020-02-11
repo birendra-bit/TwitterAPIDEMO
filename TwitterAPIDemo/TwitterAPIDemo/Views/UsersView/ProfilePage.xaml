@@ -6,9 +6,6 @@
              x:Class="TwitterAPIDemo.Views.UsersView.ProfilePage"
              BackgroundColor="Black">
     <local:BaseContentPage.Resources>
-        <!--<Style x:Key="MainStackLayout" TargetType="StackLayout">
-            <Setter Property="Padding" Value="10,10,10,10"/>
-        </Style>-->
         <Style x:Key="BannerImage" TargetType="Image">
             <Setter Property="HeightRequest" Value="100"/>
             <Setter Property="Margin" Value="-20"/>
@@ -36,13 +33,6 @@
                              HorizontalOptions="End"
                              RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=120}" 
                              RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
-                <!--<Image Source="update_banner.png" HeightRequest="35" WidthRequest="35" HorizontalOptions="End">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer
-                            Command="{Binding UploadImage}"
-                            CommandParameter="banner"/>
-                    </Image.GestureRecognizers>
-                </Image>-->
             </StackLayout>
             <StackLayout WidthRequest="30" HeightRequest="30"  IsVisible="{Binding Visibility}" HorizontalOptions="EndAndExpand"  RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Y, Factor=0, Constant=110}" RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}">
                 <ImageButton x:Name="SaveButton" CommandParameter="Save" Aspect="AspectFill" Command="{Binding SaveImage}" Source="SaveButton.png" BackgroundColor="Black" />

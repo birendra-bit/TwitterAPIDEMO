@@ -11,27 +11,6 @@ namespace TwitterAPIDemo.Views.UsersView
         {
             InitializeComponent();
             BindingContext = new UserPageViewModel();
-            //DisplayFollowingUsers(null, null);
         }
-
-        //private void DisplayFollowingUsers(object sender, System.EventArgs e)
-        //{
-
-        //    content.Content = new FollowingPage();
-        //    following.BackgroundColor = Color.FromHex("#00bfff");
-        //    follower.BackgroundColor = Color.Transparent;
-        //}
-
-        //private void DisplayFollower(object sender, System.EventArgs e)
-        //{
-        //    content.Content = new FollowerPage();
-        //    following.BackgroundColor = Color.Transparent;
-        //    follower.BackgroundColor = Color.FromHex("#00bfff");
-        //}
-
-        //private void Button_Clicked(object sender, System.EventArgs e)
-        //{
-        //    Navigation.PushAsync(new SearchUserPage());
-        //}
     }
 }

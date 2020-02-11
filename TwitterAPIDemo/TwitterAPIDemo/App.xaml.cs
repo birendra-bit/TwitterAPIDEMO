@@ -11,14 +11,18 @@ namespace TwitterAPIDemo
         {
             try
             {
+                #if DEBUG
+                LiveReload.Init();
+                #endif
                 InitializeComponent();
+                MainPage = new NavigationPage(new TabbedPageContainer());
 
             }
             catch (System.Exception ex)
             {
 
             }
-            MainPage = new NavigationPage(new TabbedPageContainer());
+            
             //MainPage = new NavigationPage(new MainPage());
         }
 

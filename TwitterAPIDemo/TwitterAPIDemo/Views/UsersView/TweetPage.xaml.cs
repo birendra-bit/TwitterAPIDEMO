@@ -11,7 +11,7 @@ namespace TwitterAPIDemo.Views.UsersView
         public TweetPage()
         {
             InitializeComponent();
-            BindingContext = new TweetPageViewModel(Navigation);
+            BindingContext = new TweetPageViewModel();
             NavigationPage.SetHasNavigationBar(this, false);
         }
     }

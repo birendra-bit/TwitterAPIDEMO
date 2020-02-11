@@ -26,8 +26,9 @@
     </local:BaseContentPage.Resources>
     <StackLayout Margin="10">
         <ImageButton Source="searchUser.png" 
-                     HorizontalOptions="End"/>
-        <StackLayout Orientation="Horizontal" Spacing="0" >
+                     HorizontalOptions="End"
+                     Command="{Binding OpenSearchPage}"/>
+        <StackLayout Orientation="Horizontal">
             <Label Text="Follower" 
                    BackgroundColor="{Binding BgColorFollower}">
                 <Label.GestureRecognizers>

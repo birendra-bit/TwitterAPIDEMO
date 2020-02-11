@@ -6,24 +6,28 @@
              x:Class="TwitterAPIDemo.Views.UsersView.TweetPage">
     <base:BaseContentPage.Resources>
         <ResourceDictionary>
-            <Style TargetType="Grid">
+            <!--<Style TargetType="Grid">
                 <Setter Property="Margin" Value="10"/>
-            </Style>
+            </Style>-->
             <Style x:Key="CloseBtnStyle" TargetType="Button">
                 <Setter Property="BackgroundColor" Value="Transparent"/>
                 <Setter Property="TextColor" Value="#00bfff"/>
-                <Setter Property="FontSize" Value="25"/>
-                <Setter Property="FontAttributes" Value="Bold"/>
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="WidthRequest" Value="50"/>
-                <Setter Property="BorderRadius" Value="20"/>
-            </Style>
-            <Style x:Key="TweetBtnStyle" TargetType="Button">
-                <Setter Property="HeightRequest" Value="40"/>
-                <Setter Property="WidthRequest" Value="85"/>
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="BorderRadius" Value="20"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+            </Style>
+            <Style x:Key="TweetBtnStyle" TargetType="Button">
+                <Setter Property="HeightRequest" Value="30"/>
+                <Setter Property="WidthRequest" Value="75"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
                 <Setter Property="BorderRadius" Value="10"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
             </Style>
             <Style x:Key="UploadBtnStyle" TargetType="ImageButton">
                 <Setter Property="HeightRequest" Value="40"/>
@@ -39,14 +43,14 @@
     </base:BaseContentPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Button Text="X" 
                 Style="{StaticResource CloseBtnStyle}" 
@@ -55,13 +59,11 @@
                 Text="Tweet" 
                 Style="{StaticResource TweetBtnStyle}" 
                 Command="{Binding TweetBtn}" />
-        <StackLayout Grid.Row="1" Grid.Column="0">
-            <Frame 
-                   Style="{StaticResource TweetImgStyle}">
-                <Image Source="addtweets.png" 
+        <Frame Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource ProfileImgFrameStyle}">
+            <Image Source="addtweets.png" 
                    Style="{StaticResource ProfileImgStyle}"/>
-            </Frame>
-        </StackLayout>
+        </Frame>
         <StackLayout Grid.Row="1" 
                      Grid.Column="1" 
                      Grid.ColumnSpan="2">

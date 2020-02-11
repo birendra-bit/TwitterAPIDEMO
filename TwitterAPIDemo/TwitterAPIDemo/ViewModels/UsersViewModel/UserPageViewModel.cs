@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Network;
 using TwitterAPIDemo.ViewModels.Base;
+using TwitterAPIDemo.Views.UsersView;
 using Xamarin.Forms;
 
 namespace TwitterAPIDemo.ViewModels.UsersViewModel
@@ -48,6 +49,28 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             get => _isFollowingVisible;
             set { _isFollowingVisible = value; OnPropertyChanged(); }
         }
+        public UserPageViewModel(){}
+        public override async Task InitializeAsync(Page page)
+        {
+            Default();
+            if (_apiHit)
+            {
+                FollowerList = await GenerateFollowerList();
+                
+                FollowingList = await GenerateFollowingList();
+                _apiHit = false;
+            }
+        }
+        public Command OpenSearchPage
+        {
+            get
+            {
+                return new Command(() =>
+                {
+                    Navigation.PushAsync(new SearchUserPage());
+                });
+            }
+        }
         public Command DisplayFollower
         {
             get
@@ -83,18 +106,6 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get => bgColorFollowing;
             set { bgColorFollowing = value; OnPropertyChanged(); }
-        }
-        public UserPageViewModel()
-        {
-            Default();
-            if (_apiHit)
-            {
-                followerList = new ObservableCollection<UserDetails>();
-                followingList = new ObservableCollection<UserDetails>();
-                Task.Run(() => GenerateFollowerList()).Wait();
-                Task.Run(() => GenerateFollowingList()).Wait();
-                _apiHit = false;
-            }
         }
         private void Default()
         {
@@ -142,8 +153,8 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
             if (await _aPIservice.PostResponse(_url, data, null) == null)
                 return;
-            followerList.Clear();
-            await GenerateFollowerList();
+            FollowerList.Clear();
+            FollowerList = await GenerateFollowerList();
             DependencyService.Get<iMessage>().Shorttime("Action successful");
         }
         private async void UnfollowUser(object obj)
@@ -162,14 +173,15 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 
             if (await _aPIservice.PostResponse(_url, data, null) == null)
                 return;
-            followingList.Clear();
-            await GenerateFollowingList();
+            FollowingList.Clear();
+            FollowingList = await GenerateFollowingList();
             DependencyService.Get<iMessage>().Shorttime("unfollow " + ScreenName + " successful");
         }
-        private async Task GenerateFollowerList()
+        private async Task<ObservableCollection<UserDetails>> GenerateFollowerList()
         {
             _url = "https://api.twitter.com/1.1/followers/list.json";
             _aPIservice = new APIservice();
+            followerList = new ObservableCollection<UserDetails>();
             var follower = JsonConvert.DeserializeObject<FollowingModel>(await _aPIservice.GetResponse(_url, null));
             foreach (var val in follower.users)
             {
@@ -181,12 +193,14 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     Status = val.following ? "Following" : "follow"
                 });
             }
+            return followerList;
         }
-        private async Task GenerateFollowingList()
+        private async Task<ObservableCollection<UserDetails>> GenerateFollowingList()
         {
             _url = "https://api.twitter.com/1.1/friends/list.json";
 
             _aPIservice = new APIservice();
+            followingList = new ObservableCollection<UserDetails>();
             var following = JsonConvert.DeserializeObject<FollowingModel>(await _aPIservice.GetResponse(_url, null));
             foreach (var data in following.users)
             {
@@ -198,6 +212,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
                     Status = "following"
                 });
             }
+            return followingList;
         }
         public class UserDetails
         {
