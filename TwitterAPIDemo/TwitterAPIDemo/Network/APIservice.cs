@@ -18,48 +18,65 @@ namespace TwitterAPIDemo.Network
             _httpClient = new HttpClient();
             _auth = new Oauth();
         }
-        
-        public async Task<string> GetResponse(string url, Dictionary<string,string> data)
+
+        //public async Task<string> GetResponse(string url, Dictionary<string,string> data, string query)
+        //{
+        //    using (_httpClient) {
+        //        _httpClient.DefaultRequestHeaders.Add("Authorization", _auth.PrepareOAuth(url, data, "GET"));
+        //        UriBuilder builder = new UriBuilder(url);
+        //        if (query != "")
+        //        {
+        //            builder.Query = query;
+        //        }
+        //        var httpResponse = _httpClient.GetAsync(builder.Uri).Result;
+
+        //        if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
+        //        {
+        //            DisplayAlert("sorry", "You are not authorized", "ok");
+        //            return null;
+        //        }
+        //        return (await httpResponse.Content.ReadAsStringAsync()).ToString();
+        //    }
+
+        //}
+        public async Task<T> GetResponse<T>(string url, Dictionary<string, string> data, string query)
         {
-            using (_httpClient) {
+            using (_httpClient)
+            {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", _auth.PrepareOAuth(url, data, "GET"));
                 UriBuilder builder = new UriBuilder(url);
-
+                if (query != "")
+                {
+                    builder.Query = query;
+                }
                 var httpResponse = _httpClient.GetAsync(builder.Uri).Result;
 
                 if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                 {
                     DisplayAlert("sorry", "You are not authorized", "ok");
-                    return null;
+                    return default(T);
                 }
-                return (await httpResponse.Content.ReadAsStringAsync()).ToString();
+                var response = JsonConvert.DeserializeObject<T>(await httpResponse.Content.ReadAsStringAsync());
+                return response;
             }
         }
-        public async Task<string> PostResponse( string url, Dictionary<string, string> data, string pathToImage)
+            public async Task<string> PostResponse( string url, Dictionary<string, string> data, MultipartFormDataContent multipartContent)
         {
             using (_httpClient)
             {
                 _httpClient.DefaultRequestHeaders.Add("Authorization", _auth.PrepareOAuth(url, data, "POST"));
 
-                    if (pathToImage != null)
+                    if (multipartContent != null)
                     {
-                        byte[] imgdata = System.IO.File.ReadAllBytes(pathToImage);
-
-                        var imageContent = new ByteArrayContent(imgdata);
-                            imageContent.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
-
-                        var multipartContent = new MultipartFormDataContent();
-                            multipartContent.Add(imageContent, "media");
-
-                         var mediaHttpResponse = await _httpClient.PostAsync(url, multipartContent);
+                        var mediaHttpResponse = await _httpClient.PostAsync(url, multipartContent);
 
                         if (!mediaHttpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
                         {
                             DisplayAlert("sorry", "You are not authorized", "ok");
-                            return null;
+                        return null;
                         }
-                        return (await mediaHttpResponse.Content.ReadAsStringAsync()).ToString();
-                    }
+                    return (await mediaHttpResponse.Content.ReadAsStringAsync());
+                }
 
                 var httpResponse = await _httpClient.PostAsync(url, new FormUrlEncodedContent(data));
 
@@ -68,8 +85,9 @@ namespace TwitterAPIDemo.Network
                     DisplayAlert("sorry", "You are not authorized", "ok");
                     return null;
                 }
-                return (await httpResponse.Content.ReadAsStringAsync()).ToString();
+                return (await httpResponse.Content.ReadAsStringAsync());
             }
         }
+
     }
 }

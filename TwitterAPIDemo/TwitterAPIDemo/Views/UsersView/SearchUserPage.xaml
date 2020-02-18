@@ -30,8 +30,7 @@
                        SearchCommandParameter="{Binding Text,Source={x:Reference MainSearchBar}}"/>
             <ListView x:Name="searchUser"
                   ItemsSource="{Binding SearchUser}" 
-                  HasUnevenRows="True"
-                  >
+                  HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell >
@@ -44,19 +43,22 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <StackLayout Grid.Row="0" Grid.Column="0" VerticalOptions="Center">
+                            <StackLayout VerticalOptions="Center">
                                 <ImageButton Source="{Binding ProfileImgUrl}"/>
                             </StackLayout>
                             <StackLayout Grid.Row="0" Grid.Column="1">
-                                <Label Text="{Binding Name}" Style="{StaticResource name}" FontSize="18"/>
-                                    <Label Text="{Binding Uname}" Style="{StaticResource uname}"/>
+                                <Label Text="{Binding Name}" 
+                                       Style="{StaticResource NameStyle}" 
+                                       FontSize="18"/>
+                                <Label Text="{Binding ScreenName}" 
+                                    Style="{StaticResource ScreenNameStyle}"/>
                             </StackLayout>
-                            <StackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center">
-                                    <Button Text="{Binding Status}" 
-                                            Command="{Binding Path=BindingContext.Follow,Source={x:Reference searchUser}}"
-                                            CommandParameter="{Binding .}"
-                                            />
-                            </StackLayout>
+                            <StackLayout Grid.Column="2" 
+                                         VerticalOptions="Center">
+                                <Button Text="{Binding Status}" 
+                                        Command="{Binding Path=BindingContext.Follow,Source={x:Reference searchUser}}"
+                                        CommandParameter="{Binding .}"/>
+                                </StackLayout>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

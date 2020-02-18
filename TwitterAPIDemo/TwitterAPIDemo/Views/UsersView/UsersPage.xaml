@@ -30,23 +30,26 @@
                      Command="{Binding OpenSearchPage}"/>
         <StackLayout Orientation="Horizontal">
             <Label Text="Follower" 
-                   BackgroundColor="{Binding BgColorFollower}">
+                   BackgroundColor="{Binding BgColorFollower, Mode=TwoWay}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer
                         Command="{Binding DisplayFollower}"/>
                 </Label.GestureRecognizers>
             </Label>
             <Label Text="Following"
-                   BackgroundColor="{Binding BgColorFollowing}">
+                   BackgroundColor="{Binding BgColorFollowing,Mode=TwoWay}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer 
                        Command="{Binding DisplayFollowing}"/>
                 </Label.GestureRecognizers>
             </Label>
         </StackLayout>
-        <ListView ItemsSource="{Binding FollowerList}"
+        <ListView ItemsSource="{Binding FollowerList,Mode=TwoWay}"
                   IsVisible="{Binding IsFollowerVisible}"
-                  x:Name="follower1">
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsFollowerRefreshing, Mode=TwoWay}"
+                  RefreshCommand="{Binding RefreshFollower}"
+                  x:Name="follower">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell >
@@ -70,16 +73,19 @@
                                 Text="{Binding Status}" 
                                 Style="{StaticResource FollowBtnStyle}"
                                 Command="{Binding Path=BindingContext.CreateOrDestroyFriends,
-                                Source={x:Reference follower1}}"
+                                Source={x:Reference follower}}"
                                 CommandParameter="{Binding .}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <ListView ItemsSource="{Binding FollowingList}"
-                  x:Name="Following1"
-                  IsVisible="{Binding IsFollowingVisible}">
+        <ListView ItemsSource="{Binding FollowingList,Mode=TwoWay}"
+                  x:Name="Following"
+                  IsVisible="{Binding IsFollowingVisible}"
+                  IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsFollowRefreshing,Mode=TwoWay}"
+                  RefreshCommand="{Binding RefreshFollowing}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -103,8 +109,8 @@
                             <Button Grid.Column="2"
                                     Text="{Binding Status}"
                                     Style="{StaticResource FollowBtnStyle}"
-                                    Command="{Binding Path=BindingContext.Unfollow, 
-                                    Source={x:Reference Following1}}"
+                                    Command="{Binding Path=BindingContext.CreateOrDestroyFriends, 
+                                    Source={x:Reference Following}}"
                                     CommandParameter="{Binding .}"/>
                         </Grid>
                     </ViewCell>

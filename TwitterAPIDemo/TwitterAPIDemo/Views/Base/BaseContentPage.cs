@@ -6,6 +6,11 @@ namespace TwitterAPIDemo.Views.Base
 {
     public class BaseContentPage : ContentPage
     {
+        public BaseContentPage()
+        {
+
+        }
+
         private BaseViewModel ViewModel
         {
             get { return BindingContext as BaseViewModel; }

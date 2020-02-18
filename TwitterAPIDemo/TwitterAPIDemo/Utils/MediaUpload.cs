@@ -1,18 +1,12 @@
 ﻿using Plugin.Media;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TwitterAPIDemo.ViewModels.Base;
 
 namespace TwitterAPIDemo.Utils
 {
-    public class MediaUpload:BaseViewModel
+    public class MediaUpload : BaseViewModel
     {
-        public MediaUpload()
-        {
-
-        }
+        public MediaUpload(){}
         public async Task<string> PickPhoto()
         {
             if (!CrossMedia.Current.IsPickPhotoSupported)

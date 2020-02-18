@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TwitterAPIDemo.Models;
-using TwitterAPIDemo.Oauth;
+using TwitterAPIDemo.Network;
+using TwitterAPIDemo.Services;
 using TwitterAPIDemo.ViewModels.Base;
 using Xamarin.Forms;
 
@@ -14,8 +13,10 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
 {
     public class SearchViewModel : BaseViewModel
     {
-        private ObservableCollection<Details> searchUser;
-        public ObservableCollection<Details> SearchUser
+        APIservice _aPIservice;
+        private string _url = string.Empty;
+        private ObservableCollection<UserDetails> searchUser;
+        public ObservableCollection<UserDetails> SearchUser
         {
             get
             {
@@ -29,7 +30,7 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         }
         public SearchViewModel()
         {
-            this.SearchUser = new ObservableCollection<Details>();
+            this.SearchUser = new ObservableCollection<UserDetails>();
         }
         public ICommand PerformSearch => new Command<string>(async (query) =>
         {
@@ -39,39 +40,24 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             try
             {
-                using (var httpClient = new HttpClient())
-                {
-                    Authorization auth = new Authorization();
-                    string url = "https://api.twitter.com/1.1/users/search.json";
-                    var data1 = new Dictionary<string, string>
+                _aPIservice = new APIservice();
+                _url = "https://api.twitter.com/1.1/users/search.json";
+                var searchData = new Dictionary<string, string>
                     {
                         {"q",name}
                     };
-
-                    httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data1, "GET"));
-
-                    UriBuilder builder = new UriBuilder(url);
-                    builder.Query = "q=" + name;
-
-                    var httpResponse = httpClient.GetAsync(builder.Uri).Result;
-                    if (httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.Unauthorized))
+                var Users = await _aPIservice.GetResponse<List<User>>(_url, searchData, "q=" + name);
+                SearchUser.Clear();
+                SearchUser = new ObservableCollection<UserDetails>();
+                foreach (var data in Users)
+                {
+                    SearchUser.Add(new UserDetails
                     {
-                        DisplayAlert("sorry", "You are not authorized", "ok");
-                    }
-                    var httpContent = await httpResponse.Content.ReadAsStringAsync();
-                    var Users = JsonConvert.DeserializeObject<List<User>>(httpContent);
-                    this.searchUser.Clear();
-                    SearchUser = new ObservableCollection<Details>();
-                    foreach (var data in Users)
-                    {
-                        SearchUser.Add(new Details
-                        {
-                            Name = data.name,
-                            Uname = data.screen_name,
-                            ProfileImgUrl = data.profile_image_url,
-                            Status = "Follow"
-                        });
-                    }
+                        Name = data.name,
+                        ScreenName = data.screen_name,
+                        ProfileImgUrl = data.profile_image_url,
+                        Status = data.following ? "Following" : "Follow"
+                    });
                 }
             }
             catch (Exception e)
@@ -82,39 +68,22 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get
             {
-                return new Command(async (obj) =>
-                {
-                    string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
+                return new Command(CreateOrDestroyUser);
+            }
+        }
+         public override async void CreateOrDestroyUser(object obj)
+         {
+            string Uname = (string)obj.GetType().GetProperty("Uname").GetValue(obj);
 
-                    Authorization auth = new Authorization();
-                    string url = "https://api.twitter.com/1.1/friendships/create.json";
-                    Dictionary<string, string> data = new Dictionary<string, string>
+            _aPIservice = new APIservice();
+            _url = "https://api.twitter.com/1.1/friendships/create.json";
+            Dictionary<string, string> data = new Dictionary<string, string>
                     {
                         { "screen_name", Uname },
                         { "follow", "1" }
                     };
-                    using (var httpClient = new HttpClient())
-                    {
-                        httpClient.DefaultRequestHeaders.Add("Authorization", auth.PrepareOAuth(url, data, "POST"));
-
-                        var httpResponse = await httpClient.PostAsync(url, new FormUrlEncodedContent(data));
-                        if (!httpResponse.StatusCode.Equals(System.Net.HttpStatusCode.OK))
-                        {
-                            DisplayAlert("sorry", "something went wrong", "ok");
-                            return;
-                        }
-                    }
-                    DependencyService.Get<iMessage>().Shorttime("user followed successful");
-                });
-            }
-        }
-        public class Details
-        {
-            public Details() { }
-            public string Name { get; set; }
-            public string Uname { get; set; }
-            public string ProfileImgUrl { get; set; }
-            public string Status { get; set; }
+            if (await _aPIservice.PostResponse(_url, data, null) != null)
+                DisplayFlashingMessage("user followed successful");
         }
     }
 }

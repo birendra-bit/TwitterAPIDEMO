@@ -1,11 +1,4 @@
-﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using TwitterAPIDemo.Oauth;
+﻿using System;
 using Xamarin.Forms;
 
 namespace TwitterAPIDemo
@@ -21,15 +14,15 @@ namespace TwitterAPIDemo
         {
             try
             {
-                Authorization auth = new Authorization();
-                string url = "https://api.twitter.com/oauth/request_token";
-                var client = new RestClient("https://api.twitter.com/oauth/request_token");
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("oauth_callback", "http://mobile.twitter.com");
-                string str = auth.PrepareOAuth(url, null, "POST");
-                request.AddHeader("Authorization", auth.PrepareOAuth(url,null,"POST"));
-                IRestResponse response = client.Execute(request);
+                //Authorization auth = new Authorization();
+                //string url = "https://api.twitter.com/oauth/request_token";
+                //var client = new RestClient("https://api.twitter.com/oauth/request_token");
+                //client.Timeout = -1;
+                //var request = new RestRequest(Method.POST);
+                //request.AddHeader("oauth_callback", "http://mobile.twitter.com");
+                //string str = auth.PrepareOAuth(url, null, "POST");
+                //request.AddHeader("Authorization", auth.PrepareOAuth(url,null,"POST"));
+                //IRestResponse response = client.Execute(request);
                 //using (var httpClient = new HttpClient())
                 //{
 
@@ -48,7 +41,7 @@ namespace TwitterAPIDemo
                 //    //}
                 //}
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }

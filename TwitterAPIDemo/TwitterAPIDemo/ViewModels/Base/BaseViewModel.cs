@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using TwitterAPIDemo.Services;
 using TwitterAPIDemo.Utils;
 using Xamarin.Forms;
 
@@ -64,15 +65,15 @@ namespace TwitterAPIDemo.ViewModels.Base
         //    }
         //}
 
-        public bool IsTablet
-        {
-            get => _isTablet;
-            set
-            {
-                _isTablet = value;
-                OnPropertyChanged();
-            }
-        }
+        //public bool IsTablet
+        //{
+        //    get => _isTablet;
+        //    set
+        //    {
+        //        _isTablet = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         private bool _viewHasAppeared;
         public bool ViewHasAppeared
@@ -89,27 +90,27 @@ namespace TwitterAPIDemo.ViewModels.Base
 
         #region Constructor
 
-        //protected BaseViewModel()
-        //{
-        //    AppLogger.log("ViewModelBase initialized", this);
-        //    IsTablet = Device.Idiom == TargetIdiom.Tablet;
-        //}
+        protected BaseViewModel()
+        {
+            //AppLogger.log("ViewModelBase initialized", this);
+            //IsTablet = Device.Idiom == TargetIdiom.Tablet;
+
+        }
 
         #endregion
-
-
         public virtual Task InitializeAsync(Page page)
         {
             this.Navigation = page.Navigation;  // Maintain Navigation on initialization
             ViewHasAppeared = true;
             return Task.FromResult(false);
         }
+        // override this fuction in derived class
+        public virtual void CreateOrDestroyUser(object obj) { }
 
         public virtual void FinalizeAsync()
         {
             ViewHasAppeared = false;
         }
-
 
         /// <summary>
         /// Displays the alert.
@@ -149,31 +150,31 @@ namespace TwitterAPIDemo.ViewModels.Base
         /// <param name="baseModel">Base response from Web</param>
         /// <param name="successMsg">Success message.</param>
         /// <param name="failureMsg">If no msg found</param>
-        public bool DisplayWebApiRespMessage(BaseViewModel baseModel, string successMsg = null, string failureMsg = null)
-        {
-            return true;
-        }
+        //public bool DisplayWebApiRespMessage(BaseViewModel baseModel, string successMsg = null, string failureMsg = null)
+        //{
+        //    return true;
+        //}
 
         /// <summary>
         /// Displays the flashing error.
         /// The message can be shown using Toast or Snackbar, depending upon underlying method definition
         /// </summary>
         /// <param name="message"> The message to display</param>
-        //public void DisplayFlashingMessage(string message, bool isError = true)
-        //{
-        //    if (Device.RuntimePlatform == Device.iOS)
-        //    {
-        //        if (isError)
-        //        {
-        //            DisplayErrorAlert(message);
-        //        }
-        //        else
-        //        {
-        //            DisplaySuccessAlert(message);
-        //        }
-        //        return;
-        //    }
-        //    DependencyService.Get<IPlatformHelperService>().ShowFlashingMessage(message);
-        //}
+        public void DisplayFlashingMessage(string message/*, bool isError = true*/)
+        {
+            //if (Device.RuntimePlatform == Device.iOS)
+            //{
+            //    if (isError)
+            //    {
+            //        DisplayErrorAlert(message);
+            //    }
+            //    else
+            //    {
+            //        DisplaySuccessAlert(message);
+            //    }
+            //    return;
+            //}
+            DependencyService.Get<IPlatformHelperService>().ShowFlashingMessage(message);
+        }
     }
 }

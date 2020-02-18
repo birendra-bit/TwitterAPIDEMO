@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TwitterAPIDemo.Models;
 using TwitterAPIDemo.Network;
+using TwitterAPIDemo.Services;
 using TwitterAPIDemo.ViewModels.Base;
 using TwitterAPIDemo.Views.UsersView;
 using Xamarin.Forms;
@@ -17,23 +18,25 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         private bool _isFollowerVisible;
         private bool _isFollowingVisible;
         private string _url = string.Empty;
-        private ObservableCollection<UserDetails> followerList { get; set; }
+        private bool _isFollowerRefreshing=false;
+        private bool _isFollowRefreshing = false;
+        private ObservableCollection<UserDetails> _userList { get; set; }
         public ObservableCollection<UserDetails> FollowerList
         {
-            get => followerList;
+            get => _userList;
             set
             {
-                followerList = value;
+                _userList = value;
                 OnPropertyChanged();
             }
         }
         private ObservableCollection<UserDetails> followingList { get; set; }
         public ObservableCollection<UserDetails> FollowingList
         {
-            get => followingList;
+            get => _userList;
             set
             {
-                followingList = value;
+                _userList = value;
                 OnPropertyChanged();
             }
         }
@@ -52,13 +55,45 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         public UserPageViewModel(){}
         public override async Task InitializeAsync(Page page)
         {
+            await base.InitializeAsync(page);
             Default();
             if (_apiHit)
             {
-                FollowerList = await GenerateFollowerList();
-                
-                FollowingList = await GenerateFollowingList();
+                _url = "https://api.twitter.com/1.1/followers/list.json";
+                FollowerList = await GenerateList(_url);
+                _url = "https://api.twitter.com/1.1/friends/list.json";
+                FollowingList = await GenerateList(_url);
                 _apiHit = false;
+            }
+        }
+        public bool IsFollowerRefreshing
+        {
+            get => _isFollowerRefreshing;
+            set
+            {
+                _isFollowerRefreshing = value;
+                OnPropertyChanged(nameof(IsFollowerRefreshing));
+            }
+        }
+        public Command RefreshFollower
+        {
+            get
+            {
+                return new Command(RefreshFollowerList);
+            }
+        }
+        public bool IsFollowRefreshing {
+            get => _isFollowRefreshing;
+            set {
+                _isFollowRefreshing = value;
+                OnPropertyChanged(nameof(IsFollowRefreshing));
+                  }
+        }
+        public Command RefreshFollowing
+        {
+            get
+            {
+                return new Command(RefreshFollowingList);
             }
         }
         public Command OpenSearchPage
@@ -75,27 +110,36 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
         {
             get
             {
-                return new Command(() =>
-                {
-                    IsFollowerVisible = true;
-                    IsFollowingVisible = false;
-                    BgColorFollower = "#00bfff";
-                    BgColorFollowing = "Transparent";
-                });
+                return new Command(FollowerLabelStyle);
             }
         }
         public Command DisplayFollowing
         {
             get
             {
-                return new Command(() =>
-                {
-                    IsFollowingVisible = true;
-                    IsFollowerVisible = false;
-                    BgColorFollower = "Transparent";
-                    BgColorFollowing = "#00bfff";
-                });
+                return new Command(FollowingLabelStyle);
             }
+        }
+        public Command CreateOrDestroyFriends
+        {
+            get
+            {
+                return new Command(CreateOrDestroyUser);
+            }
+        }
+        private void FollowingLabelStyle()
+        {
+            IsFollowingVisible = true;
+            BgColorFollower = "Transparent";
+            BgColorFollowing = "#00bfff";
+            IsFollowerVisible = false;
+        }
+        private void FollowerLabelStyle()
+        {
+            IsFollowerVisible = true;
+            IsFollowingVisible = false;
+            BgColorFollower = "#00bfff";
+            BgColorFollowing = "Transparent";
         }
         public string BgColorFollower
         {
@@ -112,25 +156,30 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             IsFollowerVisible = true;
             BgColorFollower = "#00bfff";
         }
-        public Command Unfollow
+        private async void RefreshFollowingList()
         {
-            get { return new Command(UnfollowUser); }
+            IsFollowRefreshing = true;
+            _url = "https://api.twitter.com/1.1/friends/list.json";
+            FollowingList.Clear();
+            FollowingList = await GenerateList(_url);
+            IsFollowRefreshing = false;
         }
-        public Command CreateOrDestroyFriends
+        private async void RefreshFollowerList()
         {
-            get
-            {
-                return new Command(CreateOrDestroyFriend);
-            }
+            IsFollowerRefreshing = true;
+            _url = "https://api.twitter.com/1.1/followers/list.json";
+            FollowerList.Clear();
+            FollowerList = await GenerateList(_url);
+            IsFollowerRefreshing = false;
         }
-        public async void CreateOrDestroyFriend(object obj)
+        public override async void CreateOrDestroyUser(object obj)
         {
             string ScreenName = (string)obj.GetType().GetProperty("ScreenName").GetValue(obj);
             string status = (string)obj.GetType().GetProperty("Status").GetValue(obj);
             _aPIservice = new APIservice();
 
             Dictionary<string, string> data;
-            if (status == "follow")
+            if (status == "Follow")
             {
                 if (!await DisplalertAlertWithResponse((string)obj.GetType().GetProperty("Name").GetValue(obj), "You want to follow?", "Yes", "No"))
                 {
@@ -145,6 +194,10 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
             else
             {
+                if (!await DisplalertAlertWithResponse((string)obj.GetType().GetProperty("Name").GetValue(obj), "You want to unfollow?", "Yes", "No"))
+                {
+                    return;
+                }
                 _url = "https://api.twitter.com/1.1/friendships/destroy.json";
                 data = new Dictionary<string, string>
                     {
@@ -153,74 +206,44 @@ namespace TwitterAPIDemo.ViewModels.UsersViewModel
             }
             if (await _aPIservice.PostResponse(_url, data, null) == null)
                 return;
-            FollowerList.Clear();
-            FollowerList = await GenerateFollowerList();
-            DependencyService.Get<iMessage>().Shorttime("Action successful");
-        }
-        private async void UnfollowUser(object obj)
-        {
-            string ScreenName = (string)obj.GetType().GetProperty("ScreenName").GetValue(obj);
-            if (!await DisplalertAlertWithResponse((string)obj.GetType().GetProperty("Name").GetValue(obj), "You want to unfollow?", "Yes", "No"))
+            if( IsFollowerVisible)
             {
-                return;
+                FollowerList.Clear();
+                _url = "https://api.twitter.com/1.1/followers/list.json";
+                FollowerList = await GenerateList(_url);
             }
-            _aPIservice = new APIservice();
-            _url = "https://api.twitter.com/1.1/friendships/destroy.json";
-            var data = new Dictionary<string, string>
-                {
-                    { "screen_name", ScreenName }
-                };
-
-            if (await _aPIservice.PostResponse(_url, data, null) == null)
-                return;
-            FollowingList.Clear();
-            FollowingList = await GenerateFollowingList();
-            DependencyService.Get<iMessage>().Shorttime("unfollow " + ScreenName + " successful");
-        }
-        private async Task<ObservableCollection<UserDetails>> GenerateFollowerList()
-        {
-            _url = "https://api.twitter.com/1.1/followers/list.json";
-            _aPIservice = new APIservice();
-            followerList = new ObservableCollection<UserDetails>();
-            var follower = JsonConvert.DeserializeObject<FollowingModel>(await _aPIservice.GetResponse(_url, null));
-            foreach (var val in follower.users)
+            else
             {
-                followerList.Add(new UserDetails
-                {
-                    Name = val.name,
-                    ScreenName = val.screen_name,
-                    ProfileImgUrl = val.profile_image_url_https,
-                    Status = val.following ? "Following" : "follow"
-                });
+                FollowingList.Clear();
+                _url = "https://api.twitter.com/1.1/friends/list.json";
+                FollowingList = await GenerateList(_url);
             }
-            return followerList;
+         
+            DisplayFlashingMessage("Action successful");
         }
-        private async Task<ObservableCollection<UserDetails>> GenerateFollowingList()
+        private async Task<ObservableCollection<UserDetails>> GenerateList(string url)
         {
-            _url = "https://api.twitter.com/1.1/friends/list.json";
-
-            _aPIservice = new APIservice();
-            followingList = new ObservableCollection<UserDetails>();
-            var following = JsonConvert.DeserializeObject<FollowingModel>(await _aPIservice.GetResponse(_url, null));
-            foreach (var data in following.users)
+            try
             {
-                followingList.Add(new UserDetails
+                _aPIservice = new APIservice();
+                var follower = await _aPIservice.GetResponse<FollowingModel>(url, null, string.Empty);
+                ObservableCollection<UserDetails> userList = new ObservableCollection<UserDetails>();
+                foreach (var val in follower.users)
                 {
-                    Name = data.name,
-                    ScreenName = data.screen_name,
-                    ProfileImgUrl = data.profile_image_url_https,
-                    Status = "following"
-                });
+                    userList.Add(new UserDetails
+                    {
+                        Name = val.name,
+                        ScreenName = val.screen_name,
+                        ProfileImgUrl = val.profile_image_url_https,
+                        Status = val.following ? "Following" : "Follow"
+                    });
+                }
+                return userList;
             }
-            return followingList;
-        }
-        public class UserDetails
-        {
-            public UserDetails() { }
-            public string Name { get; set; }
-            public string ScreenName { get; set; }
-            public string ProfileImgUrl { get; set; }
-            public string Status { get; set; }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

@@ -17,6 +17,7 @@
                 <Setter Property="HasUnevenRows" Value="True"/>
                 <Setter Property="SelectionMode" Value="None"/>
                 <Setter Property="BackgroundColor" Value="Black"/>
+                <Setter Property="SeparatorVisibility" Value="None"/>
             </Style>
             <Style TargetType="StackLayout">
                 <Setter Property="BackgroundColor" Value="Transparent"/>

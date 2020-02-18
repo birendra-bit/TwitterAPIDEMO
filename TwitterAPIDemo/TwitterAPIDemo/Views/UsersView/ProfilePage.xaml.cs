@@ -20,7 +20,7 @@ namespace TwitterAPIDemo.Views.UsersView
 		public ProfilePage ()
 		{
 			InitializeComponent ();
-            BindingContext = new ProfileViewModel(Navigation);
+            BindingContext = new ProfileViewModel();
         }
     }
 }

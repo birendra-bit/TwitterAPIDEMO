@@ -3,7 +3,6 @@
              xmlns:local="clr-namespace:TwitterAPIDemo.Views.Base" 
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:fab="clr-namespace:FAB.Forms;assembly=FAB.Forms"
              x:Class="TwitterAPIDemo.Views.UsersView.HomePage"
              >
     <local:BaseContentPage.Resources>
@@ -44,12 +43,11 @@
             Factor=1}">
             <ListView ItemsSource="{Binding TweetData}" 
                       IsPullToRefreshEnabled="True" 
-                      IsRefreshing="{Binding IsFresh}"
-                      RefreshCommand="{Binding RefreshData}"
-                      SeparatorVisibility="None">
+                      IsRefreshing="{Binding IsReFresh}"
+                      RefreshCommand="{Binding RefreshData}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell >
+                        <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -63,7 +61,7 @@
                                              BackgroundColor="Transparent">
                                     <Label Text="{Binding Name}" 
                                                Style="{StaticResource NameStyle}" />
-                                    <Label Text="{Binding Uname}" 
+                                    <Label Text="{Binding ScreenName}" 
                                                Style="{StaticResource ScreenNameStyle}"/>
                                     <Label Text="{Binding TweetText}" 
                                                Style="{StaticResource TextStyle}" />
@@ -76,18 +74,18 @@
             </ListView>
         </ContentView>
         <Button
-                Style="{StaticResource FloatBtnStyle}"
-                Command="{Binding OpenTweetPage}"
-                Text="+"
-                RelativeLayout.XConstraint="{ConstraintExpression 
-                        Type=RelativeToParent, 
-                        Property=Width,
-                        Factor=1, 
-                        Constant=-70}"  
-                RelativeLayout.YConstraint="{ConstraintExpression 
-                        Type=RelativeToParent, 
-                        Property=Height, 
-                        Factor=1, 
-                        Constant=-70}" />
+            Style="{StaticResource FloatBtnStyle}"
+            Command="{Binding OpenTweetPage}"
+            Text="+"
+            RelativeLayout.XConstraint="{ConstraintExpression 
+                    Type=RelativeToParent, 
+                    Property=Width,
+                    Factor=1, 
+                    Constant=-70}"  
+            RelativeLayout.YConstraint="{ConstraintExpression 
+                    Type=RelativeToParent, 
+                    Property=Height, 
+                    Factor=1, 
+                    Constant=-70}"/>
     </RelativeLayout>
 </local:BaseContentPage>
